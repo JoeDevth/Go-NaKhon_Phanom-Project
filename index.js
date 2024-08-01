@@ -4,7 +4,7 @@ https://medium.com/firebasethailand/cdda33bbd7dd
 
 */
 
-const {  setGlobalOptions } = require("firebase-functions/v2");
+const { setGlobalOptions } = require("firebase-functions/v2");
 const { onRequest } = require("firebase-functions/v2/https");
 setGlobalOptions({
     region: "asia-northeast1",
@@ -20,7 +20,7 @@ const firebase = require('./util/firebase.util');
 const flex = require('./message/flex');
 
 exports.helloWorld = onRequest((request, response) => {
-    response.send(`Method : ${request,method} `);
+    response.send(`Method : ${request, method} `);
 });
 
 function validateWebhook(request, response) {
@@ -66,6 +66,8 @@ exports.webhook = onRequest(async (request, response) => {
                         https://linedevth.line.me/th/knowledge-api/follow-event
                     */
                     text = `ยินดีต้อนการกลับมา ${profile.displayName} คุณมีอะไรให้ช่วยมั้ย🥰`
+
+
                 }
                 await line.replyWithLongLived(event.replyToken, [{
                     "type": "text",
@@ -96,44 +98,45 @@ exports.webhook = onRequest(async (request, response) => {
 
                     let textMessage = event.message.text
 
-                    if (textMessage === "1") {
+                    if (textMessage === "สวัสดี") {
 
                         console.log([{
                             "type": "text",
                             "text": JSON.stringify(event),
                         }]);
 
-                        await line.replyWithLongLived(event.replyToken, [{
-                            "type": "text",
-                            "text": JSON.stringify(event),
-                        }])
+                        profile = await line.getProfile(event.source.userId)
+                        console.log('profile', profile);
+                        await line.replyWithStateless(event.replyToken, [flex.examplePostback(JSON.stringify(profile))])
 
 
-                    } else if (textMessage === "2") {
-
-                        await line.replyWithStateless(event.replyToken, [{
-                            "type": "text",
-                            "text": JSON.stringify(event),
-                        }])
-
-                    } else if (textMessage === "3") {
+                    }  else if (textMessage === "สถานที่ท่องเที่ยว") {
 
                         await line.replyWithStateless(event.replyToken, [flex.exampleFlex()])
+
+                    } else if (textMessage === "ร้านอาหาร") {
+
+                        await line.replyWithStateless(event.replyToken, [flex.restaurant()])
+
+                    } else if (textMessage === "ร้านคาเฟ่") {
+
+                        await line.replyWithStateless(event.replyToken, [flex.cafegood()])
 
                     } else if (textMessage === "4") {
 
                         profile = await line.getProfile(event.source.userId)
                         console.log('profile', profile);
                         await line.replyWithStateless(event.replyToken, [flex.examplePostback(JSON.stringify(profile))])
-                    } else if (textMessage === "5") {
+
+                    } else if (textMessage === "แผนที่หลัก") {
 
                         await line.replyWithStateless(event.replyToken, [{
                             "type": "imagemap",
-                            "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/7104ed5f-78b1-4d1b-ab64-63c9adb8dc50",
-                            "altText": "Imagemap generator By EX10",
+                            "baseUrl": "https://www.nakhonpanom.com/wp-content/uploads/2023/07/357521243_717367680398404_3279286131874078030_n-1.jpg",
+                            "altText": "Imagemap",
                             "baseSize": {
                                 "width": 1040,
-                                "height": "869"
+                                "height": "1500"
                             },
                             "actions": [{
                                 "type": "uri",
@@ -141,35 +144,55 @@ exports.webhook = onRequest(async (request, response) => {
                                     "x": 123,
                                     "y": 163,
                                     "width": 813,
-                                    "height": 589
+                                    "height": 800
                                 },
-                                "linkUri": "https://store.line.me/th?ref=Desktop"
+                                "linkUri": "https://travel.trueid.net/detail/ly5een7g66ky"
                             }]
                         }])
 
-                    } else if (textMessage === "ทักทาย") {
+                    } else if (textMessage === "เมนูหลัก") {
 
                         await line.replyWithStateless(event.replyToken, [{
                             "type": "text",
-                            "text": `สวัสดี`,
+                            "text": `วันนี้ทำอะไรดีครับ`,
                             "quickReply": {
                                 "items": [{
                                     "type": "action",
                                     "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
                                     "action": {
                                         "type": "message",
-                                        "label": "สวัสดี",
-                                        "text": "สวัสดี"
+                                        "label": "ร้านอาหาร",
+                                        "text": "ร้านอาหาร"
                                     }
-                                }, {
+                                },
+                                {
                                     "type": "action",
                                     "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
                                     "action": {
-                                        "type": "clipboard",
-                                        "label": "คัดลองคำ",
-                                        "clipboardText": "สวัสดี"
+                                        "type": "message",
+                                        "label": "สถานที่ท่องเที่ยว",
+                                        "text": "สถานที่ท่องเที่ยว"
                                     }
-                                }]
+                                },
+                                {
+                                    "type": "action",
+                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "ร้านคาเฟ่",
+                                        "text": "ร้านคาเฟ่"
+                                    }
+                                },
+                                {
+                                    "type": "action",
+                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "โรงแรมที่พัก",
+                                        "text": "โรงแรมที่พัก"
+                                    }
+                                },
+                                ]
                             }
                         }])
 
@@ -202,8 +225,8 @@ exports.webhook = onRequest(async (request, response) => {
                             // fileName = resGetContent.fileName
                             // todo save binary to firestore
                             binary = resGetContent.binary
-                            
-                            const publicUrl = await firebase.saveImageToStorage( event.source.groupId,resGetContent.fileName,resGetContent.binary)
+
+                            const publicUrl = await firebase.saveImageToStorage(event.source.groupId, resGetContent.fileName, resGetContent.binary)
                             await firebase.insertImageGroup(event.source.groupId, event.message.id, publicUrl)
                             msg = publicUrl
                         }
