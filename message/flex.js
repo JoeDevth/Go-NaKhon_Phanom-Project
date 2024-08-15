@@ -1,974 +1,130 @@
-exports.exampleFlex = () => {
+exports.exampleFlex = (location) => {
+    const places = [
+        {
+            name: "พระธาตุพนมวรมหาวิหาร",
+            image: "https://cms.dmpcdn.com/travel/2020/08/11/bf31c5c0-db9d-11ea-8433-c5d4d14f3a3c_original.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/1/data.html"
+        },
+        {
+            name: "พญาศรีสัตตนาคราช",
+            image: "https://f.ptcdn.info/268/059/000/pdpa9qfcbDG6xecHpD1-o.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/2/data.html"
+        },
+        {
+            name: "พระธาตุเรณู",
+            image: "https://pukmudmuangthai.com/wp-content/uploads/2021/07/%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%98%E0%B8%B2%E0%B8%95%E0%B8%B9%E0%B9%80%E0%B8%A3%E0%B8%93%E0%B8%B9.png",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/1/data.html"
+        },
+        {
+            name: "พระธาตุเรณู",
+            image: "https://pukmudmuangthai.com/wp-content/uploads/2021/07/%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%98%E0%B8%B2%E0%B8%95%E0%B8%B9%E0%B9%80%E0%B8%A3%E0%B8%93%E0%B8%B9.png",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/1/data.html"
+        },
+        {
+            name: "พระธาตุเรณู",
+            image: "https://pukmudmuangthai.com/wp-content/uploads/2021/07/%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%98%E0%B8%B2%E0%B8%95%E0%B8%B9%E0%B9%80%E0%B8%A3%E0%B8%93%E0%B8%B9.png",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/1/data.html"
+        },
+        // เพิ่มสถานที่อื่นๆ ตามต้องการ
+    ];
+
+    const bubbles = places.map(place => {
+        return {
+            "type": "bubble",
+            "size": "micro",
+            "hero": {
+                "type": "image",
+                "url": place.image,
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "uri",
+                    "label": `เส้นทางไป${place.name}`,
+                    "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
+                }
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": place.name,
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            // สร้างไอคอนดาวตามคะแนน
+                            ...Array(5).fill().map((_, i) => ({
+                                "type": "icon",
+                                "size": "xs",
+                                "url": i < Math.floor(parseFloat(place.rating)) 
+                                    ? "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
+                                    : "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
+                            })),
+                            {
+                                "type": "text",
+                                "text": place.rating,
+                                "size": "xs",
+                                "color": "#8c8c8c",
+                                "margin": "md",
+                                "flex": 0
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "ดูรายละเอียดคลิ๊ก",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5,
+                                        "action": {
+                                            "type": "uri",
+                                            "label": "ดูรายละเอียด",
+                                            "uri": place.url
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "spacing": "sm",
+                "paddingAll": "13px"
+            }
+        };
+    });
+
     return {
         "type": "flex",
-        "altText": "Flex Message",
+        "altText": "รายการสถานที่ท่องเที่ยว",
         "contents": {
             "type": "carousel",
-            "contents": [
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://cms.dmpcdn.com/travel/2020/08/11/bf31c5c0-db9d-11ea-8433-c5d4d14f3a3c_original.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "เที่ยววัดพระธาตุพนม"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "พระธาตุพนมวรมหาวิหาร",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/8/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://f.ptcdn.info/268/059/000/pdpa9qfcbDG6xecHpD1-o.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "เที่ยวพญาศรีสัตตนาคราช"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "พญาศรีสัตตนาคราช",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/9/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://pukmudmuangthai.com/wp-content/uploads/2021/07/%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%98%E0%B8%B2%E0%B8%95%E0%B8%B9%E0%B9%80%E0%B8%A3%E0%B8%93%E0%B8%B9.png",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "เที่ยวพระธาตุเรณู"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "พระธาตุเรณู",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/1/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://cms.dmpcdn.com/travel/2021/09/19/cfc3e5e0-1921-11ec-aad2-cf80f6e9833e_webp_original.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "เที่ยวสะพานมิตรภาพ 3 (นครพนม - คำม่วน)"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "สะพานมิตรภาพ 3 (นครพนม - คำม่วน)",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/10/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://cms.dmpcdn.com/travel/2022/10/30/feb94240-582d-11ed-a280-85dbf599ffb1_webp_original.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "เที่ยวพระธาตุมรุกขนคร"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "พระธาตุมรุกขนคร",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/4/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://cms.dmpcdn.com/travel/2021/11/25/e4806660-4da7-11ec-8b9f-c1e628abd1ff_webp_original.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "เที่ยวถ้ำนาคี อุทยานแห่งชาติภูลังกา"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "ถ้ำนาคี อุทยานแห่งชาติภูลังกา",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/48/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://scontent.fbkk4-4.fna.fbcdn.net/v/t1.6435-9/103380090_2709115512702186_8571193300947087752_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeEoFrrvmybNwMY6VTN11qjOeHveDfYm7U14e94N9ibtTUQhY3ADiX_7k0-Fl2V_6slmk9ALls3VzniLfSFn8wXP&_nc_ohc=QdoSNBLR-m0Q7kNvgEWO5ys&_nc_ht=scontent.fbkk4-4.fna&oh=00_AYDfn4y6txdDgxmGX0V8bHTGetknwXkFZkiyfqRuo1yx1w&oe=66D1C60A",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "เที่ยวถนนคนเดินนครพนม"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "ถนนคนเดินนครพนม",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/49/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://scontent.fbkk4-1.fna.fbcdn.net/v/t39.30808-6/311145980_975522190055849_2915126406220703120_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHu-S1jbQN1m6aAJ1gaNeohXzpmDv5NLaZfOmYO_k0tpocJuYjNzcSvcnwOWu0cQvKa_kqjz5zUBwf-xQps1Pew&_nc_ohc=ja9-fuxy6l8Q7kNvgGo7Ah5&_nc_zt=23&_nc_ht=scontent.fbkk4-1.fna&gid=A5-bG62r4iSYWfMPUPY0WRz&oh=00_AYBLUsSnXYy5ZeIJbK9vtFv-nba008l8KIniNj-C_McaFw&oe=66B004EB",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "เที่ยวพิพิธภัณฑ์จวนผู้ว่าราชการจังหวัดนครพนม (หลังเก่า)"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "พิพิธภัณฑ์จวนผู้ว่าราชการจังหวัดนครพนม (หลังเก่า)",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/41/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://cms.dmpcdn.com/travel/2022/07/12/89850cf0-0190-11ed-853c-07fa91970352_webp_original.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "เที่ยววัดพระธาตุมหาชัย"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "วัดพระธาตุมหาชัย",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/3/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://cms.dmpcdn.com/travel/2020/05/14/462cab90-95c5-11ea-bcb3-0320ce420b5e_original.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "เที่ยวหาดทรายทองศรีโคตรบูร"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "หาดทรายทองศรีโคตรบูร",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/40/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-            ]
+            "contents": bubbles
         }
-    }
-}
+    };
+};
+// สร้าง Flex Message สำหรับร้านอาหาร
 exports.restaurant = () => {
     return {
         "type": "flex",
@@ -988,7 +144,7 @@ exports.restaurant = () => {
                         "action": {
                             "type": "message",
                             "label": "action",
-                            "text": "กินอาหารร้านข้าวเกรียบปากหม้อศรีเทพ"
+                            "text": "ไปร้านข้าวเกรียบปากหม้อศรีเทพ"
                         }
                     },
                     "body": {
@@ -2799,7 +1955,7 @@ exports.cafegood = () => {
                                                 "action": {
                                                     "type": "uri",
                                                     "label": "action",
-                                                        "uri": "https://www.wongnai.com/restaurants/195519JV-%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%E0%B8%AA%E0%B8%B8%E0%B8%82-termsuk-coffee-house-%E0%B9%83%E0%B8%99%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%9E%E0%B8%99%E0%B8%A1"
+                                                    "uri": "https://www.wongnai.com/restaurants/195519JV-%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%E0%B8%AA%E0%B8%B8%E0%B8%82-termsuk-coffee-house-%E0%B9%83%E0%B8%99%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%9E%E0%B8%99%E0%B8%A1"
                                                 }
                                             }
                                         ]
@@ -2911,6 +2067,13 @@ exports.cafegood = () => {
         }
     }
 }
+exports.accommodation = () => {
+    // สร้าง Flex Message สำหรับที่พัก
+};
+
+exports.contact = () => {
+    // สร้าง Flex Message สำหรับข้อมูลติดต่อ
+};
 exports.examplePostback = (profile) => {
     return {
         "type": "flex",
