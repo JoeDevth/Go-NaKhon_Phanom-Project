@@ -98,35 +98,55 @@ exports.webhook = onRequest(async (request, response) => {
 
                     let textMessage = event.message.text
 
-                    if (textMessage === "สวัสดี") {
+const travelKeywords = ["ท่องเที่ยว", "แนะนำที่เที่ยว", "สถานที่ท่องเที่ยว" , "ที่เที่ยว", "ที่ท่องเที่ยวโด่งดัง"];
+const restaurantKeywords = ["ร้านอาหาร", "แนะนำร้านอาหาร", "อาหารร้านดัง", "ร้านราคาถูก"];
+const cafeKeywords = ["ร้านคาเฟ่", "คาเฟ่", "แนะนำคาเฟ่", "แนะนำร้านคาเฟ่","กาแฟ", "คาเฟ่ร้านดัง", "คาเฟ่ราคาถูก"];
+const accommodationKeywords = ["ที่พัก", "แนะนำที่พัก", "ที่พักดัง", "ที่พักราคาถูก","โรงแรม"];
+const contactKeywords = ["ติดต่อ", "ข้อมูลติดต่อ","เบอร์ฉูกเฉิน","เบอร์โทรฉุกเฉิน","เบอร์โทร"];
+const othersKeywords = ["อื่นๆ", "อื่น ๆ", "ไม่รู้"];
 
-                        console.log([{
-                            "type": "text",
-                            "text": JSON.stringify(event),
-                        }]);
+if (textMessage === "สวัสดี") {
 
-                        profile = await line.getProfile(event.source.userId)
-                        console.log('profile', profile);
-                        await line.replyWithStateless(event.replyToken, [flex.examplePostback(JSON.stringify(profile))])
+    console.log([{
+        "type": "text",
+        "text": JSON.stringify(event),
+    }]);
 
+    profile = await line.getProfile(event.source.userId)
+    console.log('profile', profile);
+    await line.replyWithStateless(event.replyToken, [flex.examplePostback(JSON.stringify(profile))])
 
-                    }  else if (textMessage === "สถานที่ท่องเที่ยว") {
+}  else if (travelKeywords.some(keyword => textMessage.includes(keyword))) {
 
-                        await line.replyWithStateless(event.replyToken, [flex.exampleFlex()])
+    const location = travelKeywords.find(keyword => textMessage.includes(keyword));
+    await line.replyWithStateless(event.replyToken, [flex.exampleFlex(location)]);
 
-                    } else if (textMessage === "ร้านอาหาร") {
+} else if (restaurantKeywords.some(keyword => textMessage.includes(keyword))) {
 
-                        await line.replyWithStateless(event.replyToken, [flex.restaurant()])
+    await line.replyWithStateless(event.replyToken, [flex.restaurant()])
 
-                    } else if (textMessage === "ร้านคาเฟ่") {
+} else if (cafeKeywords.some(keyword => textMessage.includes(keyword))) {
 
-                        await line.replyWithStateless(event.replyToken, [flex.cafegood()])
+    await line.replyWithStateless(event.replyToken, [flex.cafegood()])
 
-                    } else if (textMessage === "4") {
+} else if (accommodationKeywords.some(keyword => textMessage.includes(keyword))) {
 
-                        profile = await line.getProfile(event.source.userId)
-                        console.log('profile', profile);
-                        await line.replyWithStateless(event.replyToken, [flex.examplePostback(JSON.stringify(profile))])
+    await line.replyWithStateless(event.replyToken, [flex.accommodation()])
+
+} else if (contactKeywords.some(keyword => textMessage.includes(keyword))) {
+
+    await line.replyWithStateless(event.replyToken, [flex.contact()])
+
+}  else if (textMessage.startsWith("เที่ยว") || textMessage.startsWith("ไป")) {
+    const location = textMessage.replace(/^(เที่ยว|ไป)/, "").trim();
+    await line.replyWithStateless(event.replyToken, [flex.exampleFlex(location)]);
+    
+} else if (travelKeywords.some(keyword => textMessage.includes(keyword))) {
+    await line.replyWithStateless(event.replyToken, [flex.exampleFlex()]);
+
+} else if (othersKeywords.some(keyword => textMessage.includes(keyword))) {
+
+    await line.replyWithStateless(event.replyToken, [flex.others()])
 
                     } else if (textMessage === "แผนที่หลัก") {
 
