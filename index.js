@@ -98,85 +98,149 @@ exports.webhook = onRequest(async (request, response) => {
 
                     let textMessage = event.message.text
 
-const travelKeywords = ["ท่องเที่ยว", "แนะนำที่เที่ยว", "สถานที่ท่องเที่ยว" , "ที่เที่ยว", "ที่ท่องเที่ยวโด่งดัง"];
-const restaurantKeywords = ["ร้านอาหาร", "แนะนำร้านอาหาร", "อาหารร้านดัง", "ร้านราคาถูก"];
-const cafeKeywords = ["ร้านคาเฟ่", "คาเฟ่", "แนะนำคาเฟ่", "แนะนำร้านคาเฟ่","กาแฟ", "คาเฟ่ร้านดัง", "คาเฟ่ราคาถูก"];
-const accommodationKeywords = ["ที่พัก", "แนะนำที่พัก", "ที่พักดัง", "ที่พักราคาถูก","โรงแรม"];
-const contactKeywords = ["ติดต่อ", "ข้อมูลติดต่อ","เบอร์ฉูกเฉิน","เบอร์โทรฉุกเฉิน","เบอร์โทร"];
-const othersKeywords = ["อื่นๆ", "อื่น ๆ", "ไม่รู้"];
+                    const sayhiKeywords = ["สวัสดี", "ดี", "hi", "หวัดดีจ้า", "สวัสดีจ้า", "สวัสดีครับ", "สวัสดีค่ะ", "ทักทาย", "Hi", "ทัก"];
+                    const travelKeywords = ["ท่องเที่ยว", "แนะนำที่เที่ยว", "สถานที่ท่องเที่ยว", "ที่เที่ยว", "ที่ท่องเที่ยวโด่งดัง"];
+                    const restaurantKeywords = ["ร้านอาหาร", "แนะนำร้านอาหาร", "อาหารร้านดัง", "ร้านราคาถูก"];
+                    const cafeKeywords = ["ร้านคาเฟ่", "คาเฟ่", "แนะนำคาเฟ่", "แนะนำร้านคาเฟ่", "กาแฟ", "คาเฟ่ร้านดัง", "คาเฟ่ราคาถูก"];
+                    const accommodationKeywords = ["ที่พัก", "แนะนำที่พัก", "ที่พักดัง", "ที่พักราคาถูก", "โรงแรม"];
+                    const contactKeywords = ["ติดต่อ", "ข้อมูลติดต่อ", "เบอร์ฉูกเฉิน", "เบอร์โทรฉุกเฉิน", "เบอร์โทร"];
+                    const othersKeywords = ["อื่นๆ", "อื่น ๆ", "ไม่รู้"];
+                    const WebsiteKeyword = ["web", "website", "ข้อมูลเพิ่มเติม", "ขอคำแนะนำ", "การใช้งาน", "วิธีใช้", "ลิ้ง","เว็บ"]
 
-if (textMessage === "สวัสดี") {
+                    if (sayhiKeywords.some(keyword => textMessage.includes(keyword))) {
 
-    console.log([{
-        "type": "text",
-        "text": JSON.stringify(event),
-    }]);
+                        console.log([{
+                            "type": "text",
+                            "text": JSON.stringify(event),
+                        }]);
 
-    profile = await line.getProfile(event.source.userId)
-    console.log('profile', profile);
-    await line.replyWithStateless(event.replyToken, [flex.examplePostback(JSON.stringify(profile))])
+                        profile = await line.getProfile(event.source.userId)
+                        console.log('profile', profile);
+                        await line.replyWithStateless(event.replyToken, [flex.examplePostback(JSON.stringify(profile))])
 
-}  else if (travelKeywords.some(keyword => textMessage.includes(keyword))) {
+                    } else if (travelKeywords.some(keyword => textMessage.includes(keyword))) {
+                        const location = travelKeywords.find(keyword => textMessage.includes(keyword));
+                        await line.replyWithStateless(event.replyToken, [flex.exampleFlex(location)]);
 
-    const location = travelKeywords.find(keyword => textMessage.includes(keyword));
-    await line.replyWithStateless(event.replyToken, [flex.exampleFlex(location)]);
+                    } else if (restaurantKeywords.some(keyword => textMessage.includes(keyword))) {
 
-} else if (restaurantKeywords.some(keyword => textMessage.includes(keyword))) {
+                        await line.replyWithStateless(event.replyToken, [flex.restaurant()])
 
-    await line.replyWithStateless(event.replyToken, [flex.restaurant()])
+                    } else if (cafeKeywords.some(keyword => textMessage.includes(keyword))) {
 
-} else if (cafeKeywords.some(keyword => textMessage.includes(keyword))) {
+                        await line.replyWithStateless(event.replyToken, [flex.cafegood()])
 
-    await line.replyWithStateless(event.replyToken, [flex.cafegood()])
+                    } else if (accommodationKeywords.some(keyword => textMessage.includes(keyword))) {
 
-} else if (accommodationKeywords.some(keyword => textMessage.includes(keyword))) {
+                        await line.replyWithStateless(event.replyToken, [flex.accommodation()])
 
-    await line.replyWithStateless(event.replyToken, [flex.accommodation()])
+                    } else if (contactKeywords.some(keyword => textMessage.includes(keyword))) {
 
-} else if (contactKeywords.some(keyword => textMessage.includes(keyword))) {
+                        await line.replyWithStateless(event.replyToken, [flex.contact()])
 
-    await line.replyWithStateless(event.replyToken, [flex.contact()])
+                    } else if (textMessage.startsWith("เที่ยว") || textMessage.startsWith("ไป")) {
+                        const location = textMessage.replace(/^(เที่ยว|ไป)/, "").trim();
+                        await line.replyWithStateless(event.replyToken, [flex.exampleFlex(location)]);
 
-}  else if (textMessage.startsWith("เที่ยว") || textMessage.startsWith("ไป")) {
-    const location = textMessage.replace(/^(เที่ยว|ไป)/, "").trim();
-    await line.replyWithStateless(event.replyToken, [flex.exampleFlex(location)]);
-    
-} else if (travelKeywords.some(keyword => textMessage.includes(keyword))) {
-    await line.replyWithStateless(event.replyToken, [flex.exampleFlex()]);
+                    } else if (travelKeywords.some(keyword => textMessage.includes(keyword))) {
+                        await line.replyWithStateless(event.replyToken, [flex.exampleFlex()]);
 
-} else if (othersKeywords.some(keyword => textMessage.includes(keyword))) {
+                    } else if (WebsiteKeyword.some(keyword => textMessage.includes(keyword))) {
 
-    await line.replyWithStateless(event.replyToken, [flex.others()])
+                        console.log([{
+                            "type": "text",
+                            "text": JSON.stringify(event),
+                        }]);
 
-                    } else if (textMessage === "แผนที่หลัก") {
+                        profile = await line.getProfile(event.source.userId)
+                        console.log('profile', profile);
+                        await line.replyWithStateless(event.replyToken, [flex.examplePostback(JSON.stringify(profile))])
+
+                    } else if (othersKeywords.some(keyword => textMessage.includes(keyword))) {
 
                         await line.replyWithStateless(event.replyToken, [{
                             "type": "imagemap",
-                            "baseUrl": "https://www.nakhonpanom.com/wp-content/uploads/2023/07/357521243_717367680398404_3279286131874078030_n-1.jpg",
-                            "altText": "Imagemap",
+                            "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/aae40847-152b-4f38-88b0-b85e41de4762",
+                            "altText": "รายการเมนูเพิ่มเติม",
                             "baseSize": {
                                 "width": 1040,
-                                "height": "1500"
+                                "height": "1471"
                             },
-                            "actions": [{
-                                "type": "uri",
-                                "area": {
-                                    "x": 123,
-                                    "y": 163,
-                                    "width": 813,
-                                    "height": 800
+                            "actions": [
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 95,
+                                        "y": 263,
+                                        "width": 847,
+                                        "height": 164
+                                    },
+                                    "text": "ข้อมูลทั่วไป"
                                 },
-                                "linkUri": "https://travel.trueid.net/detail/ly5een7g66ky"
-                            }]
-                        }])
-
-                    } else if (textMessage === "เมนูหลัก") {
-
-                        await line.replyWithStateless(event.replyToken, [{
-                            "type": "text",
-                            "text": `วันนี้ทำอะไรดีครับ`,
-                            "quickReply": {
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 99,
+                                        "y": 450,
+                                        "width": 834,
+                                        "height": 164
+                                    },
+                                    "text": "ประวัติศาสตร์"
+                                },
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 89,
+                                        "y": 638,
+                                        "width": 855,
+                                        "height": 166
+                                    },
+                                    "text": "จุดผ่านแดน"
+                                },
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 91,
+                                        "y": 825,
+                                        "width": 842,
+                                        "height": 168
+                                    },
+                                    "text": "แผนที่ท่องเที่ยว"
+                                },
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 87,
+                                        "y": 1008,
+                                        "width": 851,
+                                        "height": 173
+                                    },
+                                    "text": "วัฒนธรรมองค์กร"
+                                },
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 83,
+                                        "y": 1197,
+                                        "width": 857,
+                                        "height": 166
+                                    },
+                                    "text": "วิสัยทัศน์/พันธกิจ"
+                                }
+                            ],
+                            "sender": {
+                                "name": "น้องโก",
+                                "iconUrl": ""
+                            }, "quickReply": {
                                 "items": [{
+                                    "type": "action",
+                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "เมนูหลัก",
+                                        "text": "เมนูหลัก"
+                                    }
+                                }, {
                                     "type": "action",
                                     "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
                                     "action": {
@@ -214,6 +278,163 @@ if (textMessage === "สวัสดี") {
                                 },
                                 ]
                             }
+                        }])
+
+                    } else if (textMessage === "แผนที่หลัก") {
+
+                        await line.replyWithStateless(event.replyToken, [{
+                            "type": "imagemap",
+                            "baseUrl": "https://www.nakhonpanom.com/wp-content/uploads/2023/07/357521243_717367680398404_3279286131874078030_n-1.jpg",
+                            "altText": "Imagemap",
+                            "baseSize": {
+                                "width": 1040,
+                                "height": "1500"
+                            },
+                            "actions": [{
+                                "type": "uri",
+                                "area": {
+                                    "x": 123,
+                                    "y": 163,
+                                    "width": 813,
+                                    "height": 800
+                                },
+                                "linkUri": "https://travel.trueid.net/detail/ly5een7g66ky"
+                            }],
+                            "sender": {
+                                "name": "น้องโก",
+                                "iconUrl": ""
+                            }, "quickReply": {
+                                "items": [{
+                                    "type": "action",
+                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "เมนูหลัก",
+                                        "text": "เมนูหลัก"
+                                    }
+                                }, {
+                                    "type": "action",
+                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "ร้านอาหาร",
+                                        "text": "ร้านอาหาร"
+                                    }
+                                },
+                                {
+                                    "type": "action",
+                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "สถานที่ท่องเที่ยว",
+                                        "text": "สถานที่ท่องเที่ยว"
+                                    }
+                                },
+                                {
+                                    "type": "action",
+                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "ร้านคาเฟ่",
+                                        "text": "ร้านคาเฟ่"
+                                    }
+                                },
+                                {
+                                    "type": "action",
+                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "โรงแรมที่พัก",
+                                        "text": "โรงแรมที่พัก"
+                                    }
+                                },
+                                {
+                                    "type": "action",
+                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "อื่นๆ",
+                                        "text": "อื่นๆ"
+                                    }
+                                },
+                                ]
+                            }
+                        }])
+
+                    } else if (textMessage === "เมนูหลัก") {
+
+                        await line.replyWithStateless(event.replyToken, [{
+                            "type": "text",
+                            "text": `วันนี้อยากทำอะไรดี น้องโกขอแนะนำ คุณสามารถเลือกเมนูได้ดังนี้เลย 🛋️🏨🥗🥘😍`,
+                            "type": "imagemap",
+                            "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/d06ee487-ab05-4d56-95c8-b78ada076b63",
+                            "altText": "Imagemap generator By EX10",
+                            "baseSize": {
+                                "width": 1040,
+                                "height": "701"
+                            },
+                            "actions": [
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 2,
+                                        "y": 5,
+                                        "width": 341,
+                                        "height": 343
+                                    },
+                                    "text": "สถานที่ท่องเที่ยว"
+                                },
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 347,
+                                        "y": 5,
+                                        "width": 345,
+                                        "height": 345
+                                    },
+                                    "text": "ร้านอาหาร"
+                                },
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 697,
+                                        "y": 3,
+                                        "width": 343,
+                                        "height": 347
+                                    },
+                                    "text": "คาเฟ่"
+                                },
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 0,
+                                        "y": 350,
+                                        "width": 345,
+                                        "height": 349
+                                    },
+                                    "text": "โรงแรม"
+                                },
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 347,
+                                        "y": 353,
+                                        "width": 347,
+                                        "height": 347
+                                    },
+                                    "text": "ติดต่อ"
+                                },
+                                {
+                                    "type": "message",
+                                    "area": {
+                                        "x": 695,
+                                        "y": 353,
+                                        "width": 341,
+                                        "height": 345
+                                    },
+                                    "text": "อื่นๆ"
+                                }
+                            ]
                         }])
 
                     } else {
