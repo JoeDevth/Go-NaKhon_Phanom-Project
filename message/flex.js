@@ -4,13 +4,13 @@ exports.exampleFlex = (location) => {
             name: "พระธาตุพนมวรมหาวิหาร",
             image: "https://cms.dmpcdn.com/travel/2020/08/11/bf31c5c0-db9d-11ea-8433-c5d4d14f3a3c_original.jpg",
             rating: "4.0",
-            url: "http://www2.nakhonphanom.go.th/travel/detail/1/data.html"
+            url: "http://www2.nakhonphanom.go.th/travel/detail/8/data.html"
         },
         {
             name: "พญาศรีสัตตนาคราช",
             image: "https://f.ptcdn.info/268/059/000/pdpa9qfcbDG6xecHpD1-o.jpg",
             rating: "4.0",
-            url: "http://www2.nakhonphanom.go.th/travel/detail/2/data.html"
+            url: "http://www2.nakhonphanom.go.th/travel/detail/9/data.html"
         },
         {
             name: "พระธาตุเรณู",
@@ -19,16 +19,250 @@ exports.exampleFlex = (location) => {
             url: "http://www2.nakhonphanom.go.th/travel/detail/1/data.html"
         },
         {
-            name: "พระธาตุเรณู",
-            image: "https://pukmudmuangthai.com/wp-content/uploads/2021/07/%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%98%E0%B8%B2%E0%B8%95%E0%B8%B9%E0%B9%80%E0%B8%A3%E0%B8%93%E0%B8%B9.png",
+            name: "สะพานมิตรภาพ 3",
+            image: "https://cms.dmpcdn.com/travel/2021/09/19/cfc3e5e0-1921-11ec-aad2-cf80f6e9833e_webp_original.jpg",
             rating: "4.0",
-            url: "http://www2.nakhonphanom.go.th/travel/detail/1/data.html"
+            url: "http://www2.nakhonphanom.go.th/travel/detail/10/data.html"
         },
         {
-            name: "พระธาตุเรณู",
-            image: "https://pukmudmuangthai.com/wp-content/uploads/2021/07/%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%98%E0%B8%B2%E0%B8%95%E0%B8%B9%E0%B9%80%E0%B8%A3%E0%B8%93%E0%B8%B9.png",
+            name: "ถ้ำนาคี",
+            image: "https://cms.dmpcdn.com/travel/2021/11/25/e4806660-4da7-11ec-8b9f-c1e628abd1ff_webp_original.jpg",
             rating: "4.0",
-            url: "http://www2.nakhonphanom.go.th/travel/detail/1/data.html"
+            url: "http://www2.nakhonphanom.go.th/travel/detail/48/data.html"
+        },
+        {
+            name: "ถนนคนเดินนครพนม",
+            image: "https://lh4.googleusercontent.com/proxy/MRX9OUfu6yqkmJWvVDnDy7l4dwlvAe2sEPBTxCIrd24ipQ3Al9ABGXSnQFVdvz5mAlWnZu1jHtpZ25VjEmfwZkXQi1pbblLqBSoH",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/49/data.html"
+        },
+        {
+            name: "พิพิธภัณฑ์จวนผู้ว่าราชการจังหวัดนครพนม",
+            image: "https://karnchanit221143.wordpress.com/wp-content/uploads/2019/01/juanpoowa.jpg?w=640",
+            rating: "3.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/41/data.html"
+        },
+        {
+            name: "อนุสรณ์สถานประธานโฮจิมินห์",
+            image: "https://cms.dmpcdn.com/travel/2020/12/29/257552a0-4996-11eb-9b6d-3fdf37c2e48e_original.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/44/data.html"
+        },
+        {
+            name: "หาดทรายทองศรีโคตรบูร",
+            image: "https://cms.dmpcdn.com/travel/2020/05/14/462cab90-95c5-11ea-bcb3-0320ce420b5e_original.jpg",
+            rating: "3.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/40/data.html"
+        },
+        {
+            name: "พระธาตุนคร",
+            image: "https://www.gerryganttphotography.com/images/nakhonphanom/DTHNP0129WatMahathat.jpg",
+            rating: "3.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/40/data.html"
+        },
+        // เพิ่มสถานที่อื่นๆ ตามต้องการ
+    ];
+
+    const bubbles = places.map(place => {
+        return {
+            "type": "bubble",
+            "size": "micro",
+            "hero": {
+                "type": "image",
+                "url": place.image,
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "uri",
+                    "label": `เส้นทางไป${place.name}`,
+                    "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
+                }
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": place.name,
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            // สร้างไอคอนดาวตามคะแนน
+                            ...Array(5).fill().map((_, i) => ({
+                                "type": "icon",
+                                "size": "xs",
+                                "url": i < Math.floor(parseFloat(place.rating)) 
+                                    ? "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
+                                    : "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
+                            })),
+                            {
+                                "type": "text",
+                                "text": place.rating,
+                                "size": "xs",
+                                "color": "#8c8c8c",
+                                "margin": "md",
+                                "flex": 0
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "ดูรายละเอียดคลิ๊ก",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5,
+                                        "action": {
+                                            "type": "uri",
+                                            "label": "ดูรายละเอียด",
+                                            "uri": place.url
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "spacing": "sm",
+                "paddingAll": "13px"
+            },
+        };
+    });
+
+    return {
+        "type": "flex",
+        "altText": "รายการสถานที่ท่องเที่ยว",
+        "contents": {
+            "type": "carousel",
+            "contents": bubbles
+        },
+        "quickReply": {
+            "items": [{
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "เมนูหลัก",
+                    "text": "เมนูหลัก"
+                }
+            },{
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "ร้านอาหาร",
+                    "text": "ร้านอาหาร"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "ร้านคาเฟ่",
+                    "text": "ร้านคาเฟ่"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "โรงแรมที่พัก",
+                    "text": "โรงแรมที่พัก"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "อื่นๆ",
+                    "text": "อื่นๆ"
+                }
+            }]
+        }
+    };
+};
+
+// สร้าง Flex Message สำหรับร้านอาหาร
+exports.restaurant = (location) => {
+    const places = [
+        {
+            name: "ข้าวเกรียบปากหม้อศรีเทพ",
+            image: "https://www.paiduaykan.com/wp-content/uploads/2021/03/SON05042.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/31/data.html"
+        },
+        {
+            name: "ครัวเวียดนาม นครพนม",
+            image: "https://img.wongnai.com/p/400x0/2021/07/10/4878ae911b2c4f25843cce8ce314aafa.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/36/data.html"
+        },
+        {
+            name: "ขนมจีนพิสมัย",
+            image: "https://img.wongnai.com/p/1920x0/2017/12/16/ca2100bebed946e7983144b6afad33e5.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/30/data.html"
+        },
+        {
+            name: "บ้านเลขที่ ๑ หมู่ ๙",
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPlNhebAMkO5NBPYjnRZtnRFLQaijmUyrFIg&s",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/10/data.html"
+        },
+        {
+            name: "ดาวทอง อาหารเวียดนาม",
+            image: "https://i.ytimg.com/vi/Z5XOWwIdiiI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCNXsnzeUAIA6iMfHhRJYz-k9ON7g",
+            rating: "3.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/33"
+        },
+        {
+            name: "โอชิเน นครพนม",
+            image: "https://img.salehere.co.th/p/1200x0/2023/12/22/cv520pvipyyr.jpg",
+            rating: "3.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/54"
+        },
+        {
+            name: "สบายดี@นครพนม",
+            image: "https://www.gplace.com/include/img_gal/6/19/gp63576d7897bc0.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/34/data.html"
+        },
+        {
+            name: "ก๋วยเตี๋ยวเรือหนองแสง",
+            image: "https://img.wongnai.com/p/1920x0/2021/04/18/7bd32821612546c2824bd0d60c8af0fc.jpg",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/38/data.html"
+        },
+        {
+            name: "โคขุน ป.จุก",
+            image: "https://files.thailandtourismdirectory.go.th/assets/upload/2018/10/12/20181012c81e728d9d4c2f636f067f89cc14862c095203.jpg",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/37/data.html"
+        },
+        {
+            name: "The TREE Cafe&Restaurant",
+            image: "https://lh3.googleusercontent.com/p/AF1QipOTCNlG5pfHX855G2Q_g1Rc79BdNZf0PfLvGKns=s680-w680-h510",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/53/data.html"
         },
         // เพิ่มสถานที่อื่นๆ ตามต้องการ
     ];
@@ -117,1967 +351,474 @@ exports.exampleFlex = (location) => {
 
     return {
         "type": "flex",
-        "altText": "รายการสถานที่ท่องเที่ยว",
+        "altText": "รายการสถานที่ร้านอาหาร",
         "contents": {
             "type": "carousel",
             "contents": bubbles
+        },
+        "quickReply": {
+            "items": [{
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "เมนูหลัก",
+                    "text": "เมนูหลัก"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "สถานที่ท่องเที่ยว",
+                    "text": "สถานที่ท่องเที่ยว"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "ร้านคาเฟ่",
+                    "text": "ร้านคาเฟ่"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "โรงแรมที่พัก",
+                    "text": "โรงแรมที่พัก"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "อื่นๆ",
+                    "text": "อื่นๆ"
+                }
+            }]
         }
     };
 };
-// สร้าง Flex Message สำหรับร้านอาหาร
-exports.restaurant = () => {
-    return {
-        "type": "flex",
-        "altText": "Flex Message",
-        "contents": {
-            "type": "carousel",
-            "contents": [
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://www.paiduaykan.com/wp-content/uploads/2021/03/SON05042.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไปร้านข้าวเกรียบปากหม้อศรีเทพ"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "ข้าวเกรียบปากหม้อศรีเทพ",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/food/detail/31/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://scontent.fbkk4-3.fna.fbcdn.net/v/t39.30808-6/410635712_892137499583766_222479299441829301_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeE9gCRn5Anyw9FAbV3HGwDKFdKKjYD9XWEV0oqNgP1dYXdRIniBHQIYdLIWxR5HBgH1UKyEQsGdVNKZVhhuZElu&_nc_ohc=haWxYjmxx2IQ7kNvgEQvC5M&_nc_zt=23&_nc_ht=scontent.fbkk4-3.fna&gid=A6KNwrd-1o8Hncyf4bqoCjT&oh=00_AYDz3ip78L8ZyOGeoYKDZduUkHXS2Qu7_9bMemwrzxjgow&oe=66B01B1D",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "กินอาหารร้านครัวเวียดนาม นครพนม"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "ครัวเวียดนาม นครพนม",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/food/detail/36/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://img.wongnai.com/p/1920x0/2019/11/30/3772e21db46848edaedeff7643324ce9.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "กินอาหารร้านดาวทอง อาหารเวียดนาม"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "ดาวทอง อาหารเวียดนาม",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/food/detail/33/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://scontent.fbkk4-4.fna.fbcdn.net/v/t39.30808-6/436378996_950619953733982_2644824849952936099_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGNxmfA32u_7CrUdB6W24Ip8rVzCn9nCurytXMKf2cK6hMovVXVT7tipzP4zSwJkx_9R72baldxSiGq3TDoMZOx&_nc_ohc=3QoGngXC02gQ7kNvgFbKFXP&_nc_zt=23&_nc_ht=scontent.fbkk4-4.fna&gid=AYmD5gz0rpDmXx_zrNRBeEO&oh=00_AYAhM8S_yftaUm1fk5LiHDs2l8p_R2igsxuiib-SlrKU3A&oe=66B024FE",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "กินอาหารร้านขนมจีนพิสมัย"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "ขนมจีนพิสมัย",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/food/detail/30/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://scontent.fbkk4-4.fna.fbcdn.net/v/t39.30808-6/305402193_388340833493824_1567112663649658949_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeHR5-Kxu2wz6Y-VtOEi0Ou0MgiD_5RgiyIyCIP_lGCLIqcd_KHookTZG_FIBlwvsFIsR4ZN7tk8Ut829FvVnX0w&_nc_ohc=3ZUkZQhmvGkQ7kNvgF8o3Pg&_nc_zt=23&_nc_ht=scontent.fbkk4-4.fna&gid=A3rWWPnu6zgsoVz98MLrCS8&oh=00_AYBfLW9RnC0YrK72IRwo2g4CL5DQVLUzVWAGPQsOOMSJoA&oe=66B0328A",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "กินอาหารร้านบ้านเลขที่ ๑ หมู่ ๙"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "บ้านเลขที่ ๑ หมู่ ๙",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/food/detail/35/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://img.wongnai.com/p/1920x0/2019/08/15/0abc113281444ab880a9c9fe247c12b6.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "กินอาหารร้านสบายดี@นครพนม"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "สบายดี@นครพนม",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/food/detail/34/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://scontent.fbkk4-4.fna.fbcdn.net/v/t1.6435-9/122867381_117963486772390_5430603406347395936_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHAW79asK6QB5O7Gi8X9ph70kzbDDKGk_jSTNsMMoaT-AyRyLR6llg8xL1If4RpbyM5o4lwPMRoxMR1r5JqUmbs&_nc_ohc=rNu8YnFmtCEQ7kNvgG7a7mh&_nc_ht=scontent.fbkk4-4.fna&oh=00_AYAGvOSVPoIsV5v3RNfuTVw2hYC5oKS7ihL2WlIyRmR-gw&oe=66D1D2C7",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "กินอาหารร้านก๋วยเตี๋ยวเรือหนองแสง"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "ก๋วยเตี๋ยวเรือหนองแสง",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/food/detail/38/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://scontent.fbkk4-4.fna.fbcdn.net/v/t39.30808-6/405210604_850552653528660_8850488421679329865_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHN-hgj93Q2-uG_EQ7cLiJqW2dBq2SbaRZbZ0GrZJtpFhwpTPf95ylRIXTBiCAyYHDCQPtZJB-0jHSSy5giachf&_nc_ohc=kZXZemGI_xgQ7kNvgFJPx9E&_nc_zt=23&_nc_ht=scontent.fbkk4-4.fna&gid=AI2NJt7UJmhHKqKgBHBG-AU&oh=00_AYCqYTCjZ2YsHPjImNkNXF4XmdVSfc0_ychS9-_CA3wAaQ&oe=66B03802",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "กินอาหารร้าน โคขุน ป.จุก"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "โคขุน ป.จุก",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/food/detail/37/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://i.ytimg.com/vi/txuugFEqbvg/maxresdefault.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "กินอาหารร้านก๋วยเตี๋ยวตลาดป.เป็ด"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "ก๋วยเตี๋ยวตลาดป.เป็ด",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/food/detail/39/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://img.wongnai.com/p/400x0/2021/05/24/c0a72fe2e79245e49abc02351085dbf5.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "กินอาหารร้านเดอะทรีบายนัวเดอ The Tree cafe’ and restaurant"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "เดอะทรีบายนัวเดอ The Tree cafe’ and restaurant",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/food/detail/53/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-            ]
-        }
-    }
-}
-exports.cafegood = () => {
-    return {
-        "type": "flex",
-        "altText": "Flex Message",
-        "contents": {
-            "type": "carousel",
-            "contents": [
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://www.paiduaykan.com/wp-content/uploads/2021/04/SMN_0356-800x438.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไปนครชิว คาเฟ่"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "นครชิว คาเฟ่",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": ""
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://www.paiduaykan.com/wp-content/uploads/2021/03/2-SON04760.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไปjungle space café"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "jungle space café",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "https://www.paiduaykan.com/jungle-space"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://www.paiduaykan.com/wp-content/uploads/2021/03/1-SON04883.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไป 76a the space"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "76a the space",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "https://www.paiduaykan.com/76a-the-space"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://www.paiduaykan.com/wp-content/uploads/2021/04/SON05139.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไป76 a the club"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "76 a the club",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "https://www.paiduaykan.com/76a-theclub"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://www.paiduaykan.com/wp-content/uploads/2021/04/POP-CAFE-1.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไปPOP CAFE"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "POP CAFE",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/4/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://www.paiduaykan.com/wp-content/uploads/2021/04/Babe-tea-bar1.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไปBabe tea bar"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "Babe tea bar",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/48/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://www.paiduaykan.com/wp-content/uploads/2021/04/Forest-Tales1.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไป Forest Tales"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "Forest Tales",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/49/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://www.paiduaykan.com/wp-content/uploads/2021/04/Cafe-Le-Landmark-1.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไป Cafe’ Le Landmark"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "Cafe’ Le Landmark",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "http://www2.nakhonphanom.go.th/travel/detail/41/data.html"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://img.wongnai.com/p/624x0/2015/08/07/3ba100e29dff491880673f9c82d0b441.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไป เติมสุข "
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "เติมสุข",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "https://www.wongnai.com/restaurants/195519JV-%E0%B9%80%E0%B8%95%E0%B8%B4%E0%B8%A1%E0%B8%AA%E0%B8%B8%E0%B8%82-termsuk-coffee-house-%E0%B9%83%E0%B8%99%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%9E%E0%B8%99%E0%B8%A1"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
-                },
-                {
-                    "type": "bubble",
-                    "size": "micro",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://img.wongnai.com/p/624x0/2022/08/19/b4c8f015fa774760973784d6926244ef.jpg",
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "320:213",
-                        "action": {
-                            "type": "message",
-                            "label": "action",
-                            "text": "ไป Chewa Cafe"
-                        }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "Chewa Cafe",
-                                "weight": "bold",
-                                "size": "sm",
-                                "wrap": true
-                            },
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
-                                    },
-                                    {
-                                        "type": "icon",
-                                        "size": "xs",
-                                        "url": "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "text": "4.0",
-                                        "size": "xs",
-                                        "color": "#8c8c8c",
-                                        "margin": "md",
-                                        "flex": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "ดูรายละเอียดคลิ๊ก",
-                                                "wrap": true,
-                                                "color": "#8c8c8c",
-                                                "size": "xs",
-                                                "flex": 5,
-                                                "action": {
-                                                    "type": "uri",
-                                                    "label": "action",
-                                                    "uri": "https://www.wongnai.com/listings/cafe-nakornphanom?ref=ct"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "spacing": "sm",
-                        "paddingAll": "13px"
-                    }
+exports.cafegood = (location) => {
+    const places = [
+        {
+            name: "Jungle Space Village",
+            image: "https://img.wongnai.com/p/1920x0/2024/02/21/e515674d48df41fd8e9d0fd0eda0558f.jpg",
+            rating: "5",
+            url: "http://www2.nakhonphanom.go.th/food/detail/31/data.html"
+        },
+        {
+            name: "Cafe' Le Landmark",
+            image: "https://www.chillpainai.com/src/wewakeup/scoop/images/c818aa2b86d2ad6d538e96732dfa1c3ee30593a0.jpg",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/36/data.html"
+        },
+        {
+            name: "76A The Club ร้านกาแฟ",
+            image: "https://s359.kapook.com//pagebuilder/7e150d47-1d19-40cb-bd67-069bd4a9a13c.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/30/data.html"
+        },
+        {
+            name: "76เอ เดอะ สเปซ",
+            image: "https://www.goaonweb.com/wp-content/uploads/2020/06/54.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/travel/detail/10/data.html"
+        },
+        {
+            name: "Wayla cafe",
+            image: "https://img.wongnai.com/p/1920x0/2018/07/08/aaae2b39bead436b9c6e38612cd2cf81.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/33"
+        },
+        {
+            name: "A-List Coffee&Tea Cheese",
+            image: "https://lh5.googleusercontent.com/p/AF1QipMVTkbB_ROria5UqzJRpfx_TIWsfaz1TutxXszK=w480-h300-k-n-rw",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/54"
+        },
+        {
+            name: "5th avenue นครพนม",
+            image: "https://img.wongnai.com/p/192x192/2023/10/31/c7923414aa9a4f208669db368d849644.jpg",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/34/data.html"
+        },
+        {
+            name: "Forest Tales",
+            image: "https://files.thailandtourismdirectory.go.th/assets/upload/2021/8/16//1779065b-1c84-45e5-b57b-632ce19df39d.jpg",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/38/data.html"
+        },
+        {
+            name: "Ali blah blah bistro",
+            image: "https://s359.kapook.com//pagebuilder/51fae2cc-09ed-4eb4-960d-7c5928c58aa6.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/37/data.html"
+        },
+        {
+            name: "Little Home",
+            image: "https://s359.kapook.com//pagebuilder/ea85f953-d0e2-4321-9bd8-c3299d52f789.jpg",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/53/data.html"
+        },
+        // เพิ่มสถานที่อื่นๆ ตามต้องการ
+    ];
+
+    const bubbles = places.map(place => {
+        return {
+            "type": "bubble",
+            "size": "micro",
+            "hero": {
+                "type": "image",
+                "url": place.image,
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "uri",
+                    "label": `เส้นทางไป${place.name}`,
+                    "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
                 }
-            ]
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": place.name,
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            // สร้างไอคอนดาวตามคะแนน
+                            ...Array(5).fill().map((_, i) => ({
+                                "type": "icon",
+                                "size": "xs",
+                                "url": i < Math.floor(parseFloat(place.rating)) 
+                                    ? "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
+                                    : "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
+                            })),
+                            {
+                                "type": "text",
+                                "text": place.rating,
+                                "size": "xs",
+                                "color": "#8c8c8c",
+                                "margin": "md",
+                                "flex": 0
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "ดูรายละเอียดคลิ๊ก",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5,
+                                        "action": {
+                                            "type": "uri",
+                                            "label": "ดูรายละเอียด",
+                                            "uri": place.url
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "spacing": "sm",
+                "paddingAll": "13px"
+            }
+        };
+    });
+
+    return {
+        "type": "flex",
+        "altText": "รายการสถานที่ร้านคาเฟ่",
+        "contents": {
+            "type": "carousel",
+            "contents": bubbles
+        },
+        "quickReply": {
+            "items": [{
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "เมนูหลัก",
+                    "text": "เมนูหลัก"
+                }
+            },{
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "ร้านอาหาร",
+                    "text": "ร้านอาหาร"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "สถานที่ท่องเที่ยว",
+                    "text": "สถานที่ท่องเที่ยว"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "โรงแรมที่พัก",
+                    "text": "โรงแรมที่พัก"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "อื่นๆ",
+                    "text": "อื่นๆ"
+                }
+            }]
         }
-    }
-}
-exports.accommodation = () => {
-    // สร้าง Flex Message สำหรับที่พัก
+    };
+};
+exports.accommodation = (location) => {
+    const places = [
+        {
+            name: "โรงแรมฟอร์จูน ริเวอร์วิว นครพนม",
+            image: "https://media-cdn.tripadvisor.com/media/photo-s/06/db/ad/27/caption.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/hotel/detail/20/data.html"
+        },
+        {
+            name: "That Phanom River View Hotel",
+            image: "https://lh6.googleusercontent.com/proxy/2CHAnm00MfSmGu7k_yYsdu-PjKpsU3JjV0gJIX7yhKDLIbWcyrgW2_fGTT9b6AbSZLIDzcFe5vPdya1pbWw2R6mYD3fURsRyp5rM7z_D0z-uqptAoajxrT0AO3RsUQt-lt0H_JIL",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/hotel/detail/21/data.html"
+        },
+        {
+            name: "Blu Hotel Nakhon Phanom",
+            image: "https://pix10.agoda.net/hotelImages/938/9387812/9387812_19082114250079788489.jpg?ca=9&ce=1&s=414x232&ar=16x9",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/hotel/detail/19/data.html"
+        },
+        {
+            name: "โรงแรมเดอะริเวอร์ นครพนม",
+            image: "https://pix10.agoda.net/hotelImages/536/536340/536340_16093017140047187699.jpg?ca=6&ce=1&s=414x232&ar=16x9",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/hotel/detail/61/data.html"
+        },
+        {
+            name: "โรงแรมชีวาโขง",
+            image: "https://www.chuwab.com/images/hotel/6/89/50689/bimg_20220607165603.jpeg",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/food/detail/33"
+        },
+        {
+            name: "โรงแรม สิริรีเจ้นท์",
+            image: "https://www.chuwab.com/images/hotel/5/35/48635/48635_large_202011260954534.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/hotel/detail/50/data.html"
+        },
+        {
+            name: "โรงแรมแลนด์มาร์คนครพนม",
+            image: "https://pix10.agoda.net/hotelImages/6857060/-1/3535fb4d03babcc515c2ddb4ba709fbf.jpg?ca=8&ce=1&s=414x232&ar=16x9",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/hotel/detail/59/data.html"
+        },
+        {
+            name: "โรงแรมเดอะเนสท์ นครพนม",
+            image: "https://pix10.agoda.net/hotelImages/23070873/-1/5d26c26031b94378daecc4c7b5b917a0.jpg?ca=20&ce=1&s=414x232&ar=16x9",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/hotel/detail/66/data.html"
+        },
+        {
+            name: "R Photo Hotel",
+            image: "https://pix10.agoda.net/hotelImages/184/18467434/18467434_20100617500092653647.jpg?ca=14&ce=1",
+            rating: "5.0",
+            url: "http://www2.nakhonphanom.go.th/hotel/detail/26/data.html"
+        },
+        {
+            name: "โรงแรมสวนยางรีสอร์ท2 อ.นาแก",
+            image: "https://files.thailandtourismdirectory.go.th/assets/upload/2018/03/20/2018032021547bd0bbe574dcb62614d7ade7cf93092649.jpg",
+            rating: "4.0",
+            url: "http://www2.nakhonphanom.go.th/hotel/detail/29/data.html"
+        },
+        // เพิ่มสถานที่อื่นๆ ตามต้องการ
+    ];
+
+    const bubbles = places.map(place => {
+        return {
+            "type": "bubble",
+            "size": "micro",
+            "hero": {
+                "type": "image",
+                "url": place.image,
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "uri",
+                    "label": `เส้นทางไป${place.name}`,
+                    "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
+                }
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": place.name,
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            // สร้างไอคอนดาวตามคะแนน
+                            ...Array(5).fill().map((_, i) => ({
+                                "type": "icon",
+                                "size": "xs",
+                                "url": i < Math.floor(parseFloat(place.rating)) 
+                                    ? "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
+                                    : "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
+                            })),
+                            {
+                                "type": "text",
+                                "text": place.rating,
+                                "size": "xs",
+                                "color": "#8c8c8c",
+                                "margin": "md",
+                                "flex": 0
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "ดูรายละเอียดคลิ๊ก",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5,
+                                        "action": {
+                                            "type": "uri",
+                                            "label": "ดูรายละเอียด",
+                                            "uri": place.url
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "spacing": "sm",
+                "paddingAll": "13px"
+            }
+        };
+    });
+
+    return {
+        "type": "flex",
+        "altText": "รายการสถานที่พักโรงแรม",
+        "contents": {
+            "type": "carousel",
+            "contents": bubbles
+        },
+        "quickReply": {
+            "items": [{
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "เมนูหลัก",
+                    "text": "เมนูหลัก"
+                }
+            },{
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "ร้านอาหาร",
+                    "text": "ร้านอาหาร"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "สถานที่ท่องเที่ยว",
+                    "text": "สถานที่ท่องเที่ยว"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "ร้านคาเฟ่",
+                    "text": "ร้านคาเฟ่"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "อื่นๆ",
+                    "text": "อื่นๆ"
+                }
+            }]
+        }
+    };
 };
 
-exports.contact = () => {
-    // สร้าง Flex Message สำหรับข้อมูลติดต่อ
+exports.contact = (location) =>{
 };
+exports.other = (location) => {
+    
+}
 exports.examplePostback = (profile) => {
     return {
         "type": "flex",
-        "altText": "Flex Message",
+        "altText": "น้องโกทักทาย",
         "contents": {
             "type": "bubble",
             "hero": {
@@ -2121,10 +862,31 @@ exports.examplePostback = (profile) => {
                         "height": "sm",
                         "action": {
                             "type": "message",
-                            "label": "แผนที่หลัก",
+                            "label": "แผนที่ภาพรวม",
                             "text": "แผนที่หลัก"
                         }
                     },
+                    {
+                        "type": "button",
+                        "style": "link",
+                        "height": "sm",
+                        "action": {
+                            "type": "uri",
+                            "label": "เว็บไซต์",
+                            "uri": "https://liff.line.me/2006152701-gYo9Kwqr"
+                        }
+                    },
+                    {
+                        "type": "button",
+                        "style": "link",
+                        "height": "sm",
+                        "action": {
+                            "type": "message",
+                            "label": "อื่นๆ",
+                            "text": "อื่นๆ"
+                        }
+                    },
+              
                     {
                         "type": "box",
                         "layout": "vertical",
@@ -2134,6 +896,65 @@ exports.examplePostback = (profile) => {
                 ],
                 "flex": 0
             }
+        },
+        "sender": {
+            "name": "น้องโก",
+            "iconUrl": ""
+        },"quickReply": {
+            "items": [{
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "เมนูหลัก",
+                    "text": "เมนูหลัก"
+                }
+            },{
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "ร้านอาหาร",
+                    "text": "ร้านอาหาร"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "สถานที่ท่องเที่ยว",
+                    "text": "สถานที่ท่องเที่ยว"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "ร้านคาเฟ่",
+                    "text": "ร้านคาเฟ่"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "โรงแรมที่พัก",
+                    "text": "โรงแรมที่พัก"
+                }
+            },
+            {
+                "type": "action",
+                "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                "action": {
+                    "type": "message",
+                    "label": "อื่นๆ",
+                    "text": "อื่นๆ"
+                }
+            },
+            ]
         }
     }
 }
