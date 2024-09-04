@@ -62,43 +62,37 @@ exports.exampleFlex = (location) => {
         },
         // เพิ่มสถานที่อื่นๆ ตามต้องการ
     ];
-
     const bubbles = places.map(place => {
         return {
             "type": "bubble",
-            "size": "micro",
+            "size": "hecto",
             "hero": {
                 "type": "image",
                 "url": place.image,
                 "size": "full",
                 "aspectMode": "cover",
                 "aspectRatio": "320:213",
-                "action": {
-                    "type": "uri",
-                    "label": `เส้นทางไป${place.name}`,
-                    "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
-                }
             },
             "body": {
                 "type": "box",
                 "layout": "vertical",
+                "spacing": "sm",
                 "contents": [
                     {
                         "type": "text",
                         "text": place.name,
                         "weight": "bold",
-                        "size": "sm",
+                        "size": "lg",
                         "wrap": true
                     },
                     {
                         "type": "box",
                         "layout": "baseline",
                         "contents": [
-                            // สร้างไอคอนดาวตามคะแนน
                             ...Array(5).fill().map((_, i) => ({
                                 "type": "icon",
                                 "size": "xs",
-                                "url": i < Math.floor(parseFloat(place.rating)) 
+                                "url": i < Math.floor(parseFloat(place.rating))
                                     ? "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
                                     : "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
                             })),
@@ -107,43 +101,42 @@ exports.exampleFlex = (location) => {
                                 "text": place.rating,
                                 "size": "xs",
                                 "color": "#8c8c8c",
-                                "margin": "md",
+                                "margin": "sm",
                                 "flex": 0
                             }
                         ]
                     },
                     {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "spacing": "sm",
-                                "contents": [
-                                    {
-                                        "type": "text",
-                                        "text": "ดูรายละเอียดคลิ๊ก",
-                                        "wrap": true,
-                                        "color": "#8c8c8c",
-                                        "size": "xs",
-                                        "flex": 5,
-                                        "action": {
-                                            "type": "uri",
-                                            "label": "ดูรายละเอียด",
-                                            "uri": place.url
-                                        }
-                                    }
-                                ]
-                            }
-                        ]
+                        "type": "button",
+                        "style": "primary",
+                        "color": "#00c300",
+                        "height": "md", // ลดขนาดปุ่มให้น้อยลง
+                        "action": {
+                            "type": "uri",
+                            "label": "นำทาง",
+                            "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
+                        }
+                    },
+                    {
+                        "type": "button",
+                        "style": "link",
+                        "height": "sm", // ลดขนาดปุ่มให้น้อยลง
+                        "action": {
+                            "type": "uri",
+                            "label": "ดูรายละเอียด",
+                            "uri": place.url
+                        }
                     }
                 ],
                 "spacing": "sm",
-                "paddingAll": "13px"
+                "paddingTop": "9px", // เพิ่ม padding ด้านบน (หากต้องการ)
+                "paddingAll": "6px",
+                "paddingBottom": "4px", // ปรับให้ขอบชิดปุ่ม
+                "flex": 0
             },
         };
     });
+
 
     return {
         "type": "flex",
@@ -161,7 +154,7 @@ exports.exampleFlex = (location) => {
                     "label": "เมนูหลัก",
                     "text": "เมนูหลัก"
                 }
-            },{
+            }, {
                 "type": "action",
                 "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
                 "action": {
@@ -270,39 +263,34 @@ exports.restaurant = (location) => {
     const bubbles = places.map(place => {
         return {
             "type": "bubble",
-            "size": "micro",
+            "size": "hecto",
             "hero": {
                 "type": "image",
                 "url": place.image,
                 "size": "full",
                 "aspectMode": "cover",
                 "aspectRatio": "320:213",
-                "action": {
-                    "type": "uri",
-                    "label": `เส้นทางไป${place.name}`,
-                    "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
-                }
             },
             "body": {
                 "type": "box",
                 "layout": "vertical",
+                "spacing": "sm",
                 "contents": [
                     {
                         "type": "text",
                         "text": place.name,
                         "weight": "bold",
-                        "size": "sm",
+                        "size": "lg",
                         "wrap": true
                     },
                     {
                         "type": "box",
                         "layout": "baseline",
                         "contents": [
-                            // สร้างไอคอนดาวตามคะแนน
                             ...Array(5).fill().map((_, i) => ({
                                 "type": "icon",
                                 "size": "xs",
-                                "url": i < Math.floor(parseFloat(place.rating)) 
+                                "url": i < Math.floor(parseFloat(place.rating))
                                     ? "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
                                     : "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
                             })),
@@ -311,41 +299,39 @@ exports.restaurant = (location) => {
                                 "text": place.rating,
                                 "size": "xs",
                                 "color": "#8c8c8c",
-                                "margin": "md",
+                                "margin": "sm",
                                 "flex": 0
                             }
                         ]
                     },
                     {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "spacing": "sm",
-                                "contents": [
-                                    {
-                                        "type": "text",
-                                        "text": "ดูรายละเอียดคลิ๊ก",
-                                        "wrap": true,
-                                        "color": "#8c8c8c",
-                                        "size": "xs",
-                                        "flex": 5,
-                                        "action": {
-                                            "type": "uri",
-                                            "label": "ดูรายละเอียด",
-                                            "uri": place.url
-                                        }
-                                    }
-                                ]
-                            }
-                        ]
+                        "type": "button",
+                        "style": "primary",
+                        "color": "#00c300",
+                        "height": "md", // ลดขนาดปุ่มให้น้อยลง
+                        "action": {
+                            "type": "uri",
+                            "label": "นำทาง",
+                            "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
+                        }
+                    },
+                    {
+                        "type": "button",
+                        "style": "link",
+                        "height": "sm", // ลดขนาดปุ่มให้น้อยลง
+                        "action": {
+                            "type": "uri",
+                            "label": "ดูรายละเอียด",
+                            "uri": place.url
+                        }
                     }
                 ],
                 "spacing": "sm",
-                "paddingAll": "13px"
-            }
+                "paddingTop": "9px", // เพิ่ม padding ด้านบน (หากต้องการ)
+                "paddingAll": "6px",
+                "paddingBottom": "4px", // ปรับให้ขอบชิดปุ่ม
+                "flex": 0
+            },
         };
     });
 
@@ -473,39 +459,34 @@ exports.cafegood = (location) => {
     const bubbles = places.map(place => {
         return {
             "type": "bubble",
-            "size": "micro",
+            "size": "hecto",
             "hero": {
                 "type": "image",
                 "url": place.image,
                 "size": "full",
                 "aspectMode": "cover",
                 "aspectRatio": "320:213",
-                "action": {
-                    "type": "uri",
-                    "label": `เส้นทางไป${place.name}`,
-                    "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
-                }
             },
             "body": {
                 "type": "box",
                 "layout": "vertical",
+                "spacing": "sm",
                 "contents": [
                     {
                         "type": "text",
                         "text": place.name,
                         "weight": "bold",
-                        "size": "sm",
+                        "size": "lg",
                         "wrap": true
                     },
                     {
                         "type": "box",
                         "layout": "baseline",
                         "contents": [
-                            // สร้างไอคอนดาวตามคะแนน
                             ...Array(5).fill().map((_, i) => ({
                                 "type": "icon",
                                 "size": "xs",
-                                "url": i < Math.floor(parseFloat(place.rating)) 
+                                "url": i < Math.floor(parseFloat(place.rating))
                                     ? "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
                                     : "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
                             })),
@@ -514,41 +495,39 @@ exports.cafegood = (location) => {
                                 "text": place.rating,
                                 "size": "xs",
                                 "color": "#8c8c8c",
-                                "margin": "md",
+                                "margin": "sm",
                                 "flex": 0
                             }
                         ]
                     },
                     {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "spacing": "sm",
-                                "contents": [
-                                    {
-                                        "type": "text",
-                                        "text": "ดูรายละเอียดคลิ๊ก",
-                                        "wrap": true,
-                                        "color": "#8c8c8c",
-                                        "size": "xs",
-                                        "flex": 5,
-                                        "action": {
-                                            "type": "uri",
-                                            "label": "ดูรายละเอียด",
-                                            "uri": place.url
-                                        }
-                                    }
-                                ]
-                            }
-                        ]
+                        "type": "button",
+                        "style": "primary",
+                        "color": "#00c300",
+                        "height": "md", // ลดขนาดปุ่มให้น้อยลง
+                        "action": {
+                            "type": "uri",
+                            "label": "นำทาง",
+                            "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
+                        }
+                    },
+                    {
+                        "type": "button",
+                        "style": "link",
+                        "height": "sm", // ลดขนาดปุ่มให้น้อยลง
+                        "action": {
+                            "type": "uri",
+                            "label": "ดูรายละเอียด",
+                            "uri": place.url
+                        }
                     }
                 ],
                 "spacing": "sm",
-                "paddingAll": "13px"
-            }
+                "paddingTop": "9px", // เพิ่ม padding ด้านบน (หากต้องการ)
+                "paddingAll": "6px",
+                "paddingBottom": "4px", // ปรับให้ขอบชิดปุ่ม
+                "flex": 0
+            },
         };
     });
 
@@ -568,7 +547,7 @@ exports.cafegood = (location) => {
                     "label": "เมนูหลัก",
                     "text": "เมนูหลัก"
                 }
-            },{
+            }, {
                 "type": "action",
                 "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
                 "action": {
@@ -675,35 +654,30 @@ exports.accommodation = (location) => {
     const bubbles = places.map(place => {
         return {
             "type": "bubble",
-            "size": "micro",
+            "size": "hecto",
             "hero": {
                 "type": "image",
                 "url": place.image,
                 "size": "full",
                 "aspectMode": "cover",
                 "aspectRatio": "320:213",
-                "action": {
-                    "type": "uri",
-                    "label": `เส้นทางไป${place.name}`,
-                    "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
-                }
             },
             "body": {
                 "type": "box",
                 "layout": "vertical",
+                "spacing": "sm",
                 "contents": [
                     {
                         "type": "text",
                         "text": place.name,
                         "weight": "bold",
-                        "size": "sm",
+                        "size": "lg",
                         "wrap": true
                     },
                     {
                         "type": "box",
                         "layout": "baseline",
                         "contents": [
-                            // สร้างไอคอนดาวตามคะแนน
                             ...Array(5).fill().map((_, i) => ({
                                 "type": "icon",
                                 "size": "xs",
@@ -716,41 +690,39 @@ exports.accommodation = (location) => {
                                 "text": place.rating,
                                 "size": "xs",
                                 "color": "#8c8c8c",
-                                "margin": "md",
+                                "margin": "sm",
                                 "flex": 0
                             }
                         ]
                     },
                     {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "baseline",
-                                "spacing": "sm",
-                                "contents": [
-                                    {
-                                        "type": "text",
-                                        "text": "ดูรายละเอียดคลิ๊ก",
-                                        "wrap": true,
-                                        "color": "#8c8c8c",
-                                        "size": "xs",
-                                        "flex": 5,
-                                        "action": {
-                                            "type": "uri",
-                                            "label": "ดูรายละเอียด",
-                                            "uri": place.url
-                                        }
-                                    }
-                                ]
-                            }
-                        ]
+                        "type": "button",
+                        "style": "primary",
+                        "color": "#00c300",
+                        "height": "md", // ลดขนาดปุ่มให้น้อยลง
+                        "action": {
+                            "type": "uri",
+                            "label": "นำทาง",
+                            "uri": `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`
+                        }
+                    },
+                    {
+                        "type": "button",
+                        "style": "link",
+                        "height": "sm", // ลดขนาดปุ่มให้น้อยลง
+                        "action": {
+                            "type": "uri",
+                            "label": "ดูรายละเอียด",
+                            "uri": place.url
+                        }
                     }
                 ],
                 "spacing": "sm",
-                "paddingAll": "13px"
-            }
+                "paddingTop": "9px", // เพิ่ม padding ด้านบน (หากต้องการ)
+                "paddingAll": "6px",
+                "paddingBottom": "4px", // ปรับให้ขอบชิดปุ่ม
+                "flex": 0
+            },
         };
     });
 
@@ -770,7 +742,7 @@ exports.accommodation = (location) => {
                     "label": "เมนูหลัก",
                     "text": "เมนูหลัก"
                 }
-            },{
+            }, {
                 "type": "action",
                 "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
                 "action": {
@@ -810,10 +782,81 @@ exports.accommodation = (location) => {
     };
 };
 
-exports.contact = (location) =>{
+exports.contact = (location) => {
+    return {
+        "type": "imagemap",
+        "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/0a3324f8-8db3-4357-80f1-d32ef37e71a1",
+        "altText": "Imagemap generator By EX10",
+        "baseSize": {
+            "width": 1040,
+            "height": "1471"
+        },
+        "actions": [
+            {
+                "type": "uri",
+                "area": {
+                    "x": 100,
+                    "y": 311,
+                    "width": 838,
+                    "height": 183
+                },
+                "linkUri": "tel:042511578"
+            },
+            {
+                "type": "uri",
+                "area": {
+                    "x": 100,
+                    "y": 540,
+                    "width": 834,
+                    "height": 173
+                },
+                "linkUri": "tel:042513444"
+            },
+            {
+                "type": "uri",
+                "area": {
+                    "x": 104,
+                    "y": 760,
+                    "width": 832,
+                    "height": 175
+                },
+                "linkUri": "tel:042516337"
+            },
+            {
+                "type": "uri",
+                "area": {
+                    "x": 96,
+                    "y": 981,
+                    "width": 832,
+                    "height": 179
+                },
+                "linkUri": "tel:042515556"
+            },
+            {
+                "type": "message",
+                "area": {
+                    "x": 39,
+                    "y": 1262,
+                    "width": 433,
+                    "height": 141
+                },
+                "text": "เมนูหลัก"
+            },
+            {
+                "type": "message",
+                "area": {
+                    "x": 549,
+                    "y": 1270,
+                    "width": 420,
+                    "height": 135
+                },
+                "text": "อื่นๆ"
+            }
+        ]
+    }
 };
 exports.other = (location) => {
-    
+
 }
 exports.examplePostback = (profile) => {
     return {
@@ -823,7 +866,7 @@ exports.examplePostback = (profile) => {
             "type": "bubble",
             "hero": {
                 "type": "image",
-                "url": "https://scontent.fbkk4-5.fna.fbcdn.net/v/t39.30808-6/381180467_699756018850820_2952746508791230928_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFp7cMcfomyFTjBR09ZrCU7ct25nMOP4Mdy3bmcw4_gx7oaVKZHFmOUoW4pKBvst8bN-N8LW6BCPAHk4pF2THcB&_nc_ohc=UaeRygY_10YQ7kNvgGtiQTU&_nc_zt=23&_nc_ht=scontent.fbkk4-5.fna&gid=ACXiE8Dx1TVdcq5tSgBy9OU&oh=00_AYBZDbEXcFoMZl_n0C-OymPpYl87_EyyFb6iZ649CgOEeg&oe=66AFE1E9",
+                "url": "https://bucket.ex10.tech/images/df1211b8-6a72-11ef-ab4d-0242ac12000e/originalContentUrl.jpg",
                 "size": "full",
                 "aspectRatio": "20:24",
                 "margin": "none",
@@ -886,7 +929,7 @@ exports.examplePostback = (profile) => {
                             "text": "อื่นๆ"
                         }
                     },
-              
+
                     {
                         "type": "box",
                         "layout": "vertical",
@@ -900,7 +943,7 @@ exports.examplePostback = (profile) => {
         "sender": {
             "name": "น้องโก",
             "iconUrl": ""
-        },"quickReply": {
+        }, "quickReply": {
             "items": [{
                 "type": "action",
                 "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
@@ -909,7 +952,7 @@ exports.examplePostback = (profile) => {
                     "label": "เมนูหลัก",
                     "text": "เมนูหลัก"
                 }
-            },{
+            }, {
                 "type": "action",
                 "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
                 "action": {
@@ -958,3 +1001,54 @@ exports.examplePostback = (profile) => {
         }
     }
 }
+exports.weatherFlex = (cityName, temperature, description, iconUrl) => {
+    return {
+        "type": "flex",
+        "altText": `Weather in ${cityName}`,
+        "contents": {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": iconUrl || "https://example.com/default-icon.png", // Default icon if iconUrl is missing
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": cityName || "Unknown Location", // Default city name
+                        "weight": "bold",
+                        "size": "xl",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "margin": "md",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": `${temperature !== undefined ? temperature : 'N/A'}°C`, // Default temperature
+                                "size": "lg",
+                                "weight": "bold",
+                                "color": "#000000"
+                            },
+                            {
+                                "type": "text",
+                                "text": description || "No description available", // Default description
+                                "size": "md",
+                                "color": "#888888",
+                                "wrap": true,
+                                "margin": "sm"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    };
+};
