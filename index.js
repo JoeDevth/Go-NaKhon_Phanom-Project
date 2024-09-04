@@ -3,7 +3,6 @@ Cloud Functions for Firebase 2nd Gen
 https://medium.com/firebasethailand/cdda33bbd7dd
 
 */
-
 const { setGlobalOptions } = require("firebase-functions/v2");
 const { onRequest } = require("firebase-functions/v2/https");
 setGlobalOptions({
@@ -11,8 +10,7 @@ setGlobalOptions({
     memory: "1GB",
     concurrency: 40,
 })
-
-
+const axios = require('axios');
 
 const line = require('./util/line.util');
 const dialogflow = require('./util/dialogflow.util');
@@ -35,7 +33,26 @@ function validateWebhook(request, response) {
 exports.webhook = onRequest(async (request, response) => {
     validateWebhook(request, response)
 
-
+    /*async function getWeatherData(cityName) {
+        try {
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${apiKey}`, {
+                params: {
+                    key: 'b0afe892ed7fb3349d2f3f63979893c1',
+                    q: cityName,
+                    lang: 'th'
+                }
+            });
+            const data = response.data;
+            return {
+                temperature: data.current.temp_c,
+                description: data.current.condition.text,
+                iconUrl: data.current.condition.icon
+            };
+        } catch (error) {
+            console.error("Error fetching weather data:", error.message);
+            return null;
+        }
+    }*/
 
     const events = request.body.events
     for (const event of events) {
@@ -82,9 +99,6 @@ exports.webhook = onRequest(async (request, response) => {
                 console.log(JSON.stringify(event));
                 break;
             case "message":
-
-
-
                 /*
                     Message
                     https://developers.line.biz/en/reference/messaging-api/#message-event
@@ -104,10 +118,26 @@ exports.webhook = onRequest(async (request, response) => {
                     const cafeKeywords = ["ร้านคาเฟ่", "คาเฟ่", "แนะนำคาเฟ่", "แนะนำร้านคาเฟ่", "กาแฟ", "คาเฟ่ร้านดัง", "คาเฟ่ราคาถูก"];
                     const accommodationKeywords = ["ที่พัก", "แนะนำที่พัก", "ที่พักดัง", "ที่พักราคาถูก", "โรงแรม"];
                     const contactKeywords = ["ติดต่อ", "ข้อมูลติดต่อ", "เบอร์ฉูกเฉิน", "เบอร์โทรฉุกเฉิน", "เบอร์โทร"];
-                    const othersKeywords = ["อื่นๆ", "อื่น ๆ", "ไม่รู้"];
-                    const WebsiteKeyword = ["web", "website", "ข้อมูลเพิ่มเติม", "ขอคำแนะนำ", "การใช้งาน", "วิธีใช้", "ลิ้ง","เว็บ"]
+                    const othersKeywords = ["อื่นๆ", "อื่น ๆ", "ไม่รู้", "เพิ่มเติม"];
+                    const WebsiteKeyword = ["web", "website", "ข้อมูลเพิ่มเติม", "ขอคำแนะนำ", "การใช้งาน", "วิธีใช้", "ลิ้ง", "เว็บ"]
+                    const weatherKeywords = ["สภาพอากาศ", "ฝนตก", "อุณหภูมิ", "พยากรณ์อากาศ", "ฝนฟ้าอากาศ", "อากาศวันนี้"];
 
-                    if (sayhiKeywords.some(keyword => textMessage.includes(keyword))) {
+                 /*   if (textMessage.includes("สภาพอากาศ")) {
+                         const cityName = "นครพนม";
+                        const weatherData = await getWeatherData(cityName);
+                        if (weatherData) {
+                            const weatherFlexMessage = flex.weatherFlex(cityName, weatherData.temperature, weatherData.description, weatherData.iconUrl);
+                            await line.replyWithStateless(event.replyToken, [weatherFlexMessage]);
+                        } else {
+                            await line.replyWithStateless(event.replyToken, [{
+                                "type": "text",
+                                "text": "ขออภัย ไม่สามารถดึงข้อมูลสภาพอากาศได้ในขณะนี้"
+                            }]);
+                        }
+                    }*/if (weatherKeywords.some(keyword => textMessage.includes(keyword))) {
+                        await line.replyWithStateless(event.replyToken, [flex.weatherFlex()])
+
+                    } if (sayhiKeywords.some(keyword => textMessage.includes(keyword))) {
 
                         console.log([{
                             "type": "text",
@@ -164,7 +194,7 @@ exports.webhook = onRequest(async (request, response) => {
                             "altText": "รายการเมนูเพิ่มเติม",
                             "baseSize": {
                                 "width": 1040,
-                                "height": "1471"
+                                "height": 1471
                             },
                             "actions": [
                                 {
@@ -205,7 +235,7 @@ exports.webhook = onRequest(async (request, response) => {
                                         "width": 842,
                                         "height": 168
                                     },
-                                    "text": "แผนที่ท่องเที่ยว"
+                                    "text": "แผนที่หลัก"
                                 },
                                 {
                                     "type": "message",
@@ -280,6 +310,10 @@ exports.webhook = onRequest(async (request, response) => {
                             }
                         }])
 
+
+                    } else if (weatherKeywords.some(keyword => textMessage.includes(keyword))) {
+                        await line.replyWithStateless(event.replyToken, [flex.exampleFlex()]);
+
                     } else if (textMessage === "แผนที่หลัก") {
 
                         await line.replyWithStateless(event.replyToken, [{
@@ -288,7 +322,7 @@ exports.webhook = onRequest(async (request, response) => {
                             "altText": "Imagemap",
                             "baseSize": {
                                 "width": 1040,
-                                "height": "1500"
+                                "height": 1500
                             },
                             "actions": [{
                                 "type": "uri",
@@ -360,8 +394,114 @@ exports.webhook = onRequest(async (request, response) => {
                                 ]
                             }
                         }])
+                    } else if (textMessage === "ประวัติศาสตร์") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "imagemap",
+                                "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/77229c7f-280b-4b95-848d-dd95c630afcb",
+                                "altText": "ประวัติศาสตร์จังหวัดนครพนม",
+                                "baseSize": {
+                                    "width": 1040,
+                                    "height": 1471
+                                },
+                                "actions": [],
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าอื่นๆ",
+                                                "text": "อื่นๆ"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]);
+                    } else if (textMessage === "วัฒนธรรมองค์กร") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "imagemap",
+                                "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/23f2b981-4f3f-4815-b046-76bd8ce1be77",
+                                "altText": "วัฒนธรรมองค์กรจังหวัดนครพนม",
+                                "baseSize": {
+                                    "width": 1040,
+                                    "height": "797"
+                                },
+                                "actions": [],
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าอื่นๆ",
+                                                "text": "อื่นๆ"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]);
+                    } else if (textMessage === "วัฒนธรรมองค์กร") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "text",
+                                "text": "วิสัยทัศน์/Visionเมืองน่าอยู่ ประตูเศรษฐกิจสู่อนุภูมิภาคลุ่มแม่น้ำโขงพันธกิจ/Missionด้านเศรษฐกิจสร้างความเจริญเติบโตทางเศรษฐกิจให้จังหวัดโดยเพิ่มขีดความสามารถในการแข่งขันของผู้ประกอบการ และประชาชนในพื้นที่เป็นหลัก ควบคู่กับการส่งเสริมการลงทุนจากนักลงทุน SMEs ในท้องถิ่น ระดับประเทศ และระหว่างประเทศในด้านที่จังหวัดมีศักยภาพ\nการพัฒนาเกษตรปลอดสารพิษและอุตสาหกรรมการเกษตรที่เป็นมิตรต่อสิ่งแวดล้อม เพื่อให้จังหวัดนครพนมหลุดพ้นจากจังหวัดที่ประชาชนมีสถานะทางเศรษฐกิจและสังคมในระดับต่ำ ไปสู่จังหวัดที่ประชาชนโดยเพิ่มขีดความสามารถในการแข่งขันของผู้ประกอบการ และประชาชนในพื้นที่เป็นหลัก ควบคู่กับการส่งเสริมการลงทุนจากนักลงทุน SMEs ในท้องถิ่น ระดับประเทศ และระหว่างประเทศในด้านที่จังหวัดมีศักยภาพการพัฒนาเกษตรปลอดสารพิษและอุตสาหกรรมการเกษตรที่เป็นมิตรต่อสิ่งแวดล้อม เพื่อให้จังหวัดนครพนมหลุดพ้นจากจังหวัดที่ประชาชนมีสถานะทางเศรษฐกิจและสังคมในระดับต่ำ ไปสู่จังหวัดที่ประชาชนมีสถานะทางเศรษฐกิจและสังคมในระดับสูงพ้นความยากจน โดยยึดหลักการพัฒนาตามแนวทางปรัชญาของเศรษฐกิจพอเพียง และใช้นวัตกรรมด้านสังคมส่งเสริมให้ประชาชนมีคุณภาพชีวิตที่ดี สุขภาพดี ได้รับโอกาสทางการรักษาพยาบาลที่ได้มาตรฐาน ยกระดับไปสู่การรองรับสังคมผู้สูงอายุส่งเสริมให้มีการเข้าถึงโอกาสทางการศึกษาจากหลักสูตรและสถานศึกษาคุณภาพสูงส่งเสริมให้มีการประกอบอาชีพและที่มีหลักประกันการดำรงชีวิตที่มั่นคง้านความมั่นคงเสริมสร้างให้ชุมชนเข้มแข็ง พื้นที่ชายแดนปลอดยาเสพติดและภัยคุกคามทุกประเภท ด้วยเทคโนโลยีสารสนเทศที่ทันสมัย สร้างสังคมสันติสุขและมีความสัมพันธ์อันดีกับประเทศเพื่อนบ้าน้านทรัพยากรธรรมชาติและสิ่งแวดล้อม\nมุ่งสู่การเป็นเมืองพัฒนาที่เป็นมิตรต่อสิ่งแวดล้อมปลอดมลพิษ การบริหารจัดการต้นแบบแห่งอนุภูมิภาคลุ่มน้ำโขง ด้วยการอนุรักษ์ฟื้นฟูทรัพยากรธรรมชาติและสิ่งแวดล้อมอย่างยั่งยืน โดยเน้นกระบวนการมีส่วนร่วมของทุกภาคส่วการบริหารจัดการมุ่งเน้นการพัฒนาเพิ่มสมรรถนะบุคลากร กระบวนการทำงานให้มีประสิทธิภาพ สะดวก รวดเร็ว และบูรณาการระบบการบริหารจัดการภาครัฐ เอกชน และประชาชน ด้วยเทคโนโลยีสารสนเทศที่ทันสมัย ภายใต้หลักธรรมาภิบาลขององค์กร เพื่อความโปร่งใส ตรวจสอบได้"
+                            },
+                            {
+                                "type": "text",
+                                "text": "คุณต้องการทำอะไรต่อ?",
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าอื่นๆ",
+                                                "text": "อื่นๆ"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]);
+                    }
 
-                    } else if (textMessage === "เมนูหลัก") {
+
+                    else if (textMessage === "ข้อมูลทั่วไป") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "imagemap",
+                                "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/9b42693b-1094-4353-a863-78a0efdb832a",
+                                "altText": "ข้อมูลทั่วไปจังหวัดนครพนม",
+                                "baseSize": {
+                                    "width": 1040,
+                                    "height": 1471
+                                },
+                                "actions": []
+                                ,
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าอื่นๆ",
+                                                "text": "อื่นๆ"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]);
+                    }
+                    else if (textMessage === "เมนูหลัก") {
 
                         await line.replyWithStateless(event.replyToken, [{
                             "type": "text",
@@ -371,7 +511,7 @@ exports.webhook = onRequest(async (request, response) => {
                             "altText": "Imagemap generator By EX10",
                             "baseSize": {
                                 "width": 1040,
-                                "height": "701"
+                                "height": 701
                             },
                             "actions": [
                                 {
@@ -436,7 +576,6 @@ exports.webhook = onRequest(async (request, response) => {
                                 }
                             ]
                         }])
-
                     } else {
                         /* Foward to Dialogflow */
                         await dialogflow.forwardDialodflow(request)
