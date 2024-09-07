@@ -8,7 +8,7 @@ exports.exampleFlex = (location) => {
         },
         {
             name: "พญาศรีสัตตนาคราช",
-            image: "https://f.ptcdn.info/268/059/000/pdpa9qfcbDG6xecHpD1-o.jpg",
+            image: "https://cms.dmpcdn.com/travel/2021/11/22/7bf9f420-4b78-11ec-b308-8513ea472177_webp_original.jpg",
             rating: "4.0",
             url: "http://www2.nakhonphanom.go.th/travel/detail/9/data.html"
         },
@@ -109,7 +109,7 @@ exports.exampleFlex = (location) => {
                     {
                         "type": "button",
                         "style": "primary",
-                        "color": "#00c300",
+                        "color": "#1CACE7",
                         "height": "md", // ลดขนาดปุ่มให้น้อยลง
                         "action": {
                             "type": "uri",
@@ -307,7 +307,7 @@ exports.restaurant = (location) => {
                     {
                         "type": "button",
                         "style": "primary",
-                        "color": "#00c300",
+                        "color": "#1CACE7",
                         "height": "md", // ลดขนาดปุ่มให้น้อยลง
                         "action": {
                             "type": "uri",
@@ -396,20 +396,20 @@ exports.cafegood = (location) => {
         {
             name: "Jungle Space Village",
             image: "https://img.wongnai.com/p/1920x0/2024/02/21/e515674d48df41fd8e9d0fd0eda0558f.jpg",
-            rating: "5",
-            url: "http://www2.nakhonphanom.go.th/food/detail/31/data.html"
+            rating: "5.0",
+            url: "https://www.wongnai.com/r/643079gO"
         },
         {
             name: "Cafe' Le Landmark",
             image: "https://www.chillpainai.com/src/wewakeup/scoop/images/c818aa2b86d2ad6d538e96732dfa1c3ee30593a0.jpg",
             rating: "5.0",
-            url: "http://www2.nakhonphanom.go.th/food/detail/36/data.html"
+            url: "https://www.wongnai.com/r/355302FK"
         },
         {
             name: "76A The Club ร้านกาแฟ",
             image: "https://s359.kapook.com//pagebuilder/7e150d47-1d19-40cb-bd67-069bd4a9a13c.jpg",
             rating: "4.0",
-            url: "http://www2.nakhonphanom.go.th/food/detail/30/data.html"
+            url: "https://www.wongnai.com/r/880566Jt"
         },
         {
             name: "76เอ เดอะ สเปซ",
@@ -421,37 +421,37 @@ exports.cafegood = (location) => {
             name: "Wayla cafe",
             image: "https://img.wongnai.com/p/1920x0/2018/07/08/aaae2b39bead436b9c6e38612cd2cf81.jpg",
             rating: "4.0",
-            url: "http://www2.nakhonphanom.go.th/food/detail/33"
+            url: "https://www.wongnai.com/r/294905Io"
         },
         {
             name: "A-List Coffee&Tea Cheese",
             image: "https://lh5.googleusercontent.com/p/AF1QipMVTkbB_ROria5UqzJRpfx_TIWsfaz1TutxXszK=w480-h300-k-n-rw",
             rating: "5.0",
-            url: "http://www2.nakhonphanom.go.th/food/detail/54"
+            url: "https://www.wongnai.com/r/364903Rl"
         },
         {
             name: "5th avenue นครพนม",
             image: "https://img.wongnai.com/p/192x192/2023/10/31/c7923414aa9a4f208669db368d849644.jpg",
             rating: "5.0",
-            url: "http://www2.nakhonphanom.go.th/food/detail/34/data.html"
+            url: "https://www.wongnai.com/r/912922oV"
         },
         {
             name: "Forest Tales",
             image: "https://files.thailandtourismdirectory.go.th/assets/upload/2021/8/16//1779065b-1c84-45e5-b57b-632ce19df39d.jpg",
             rating: "5.0",
-            url: "http://www2.nakhonphanom.go.th/food/detail/38/data.html"
+            url: "https://www.wongnai.com/r/875977OS"
         },
         {
             name: "Ali blah blah bistro",
             image: "https://s359.kapook.com//pagebuilder/51fae2cc-09ed-4eb4-960d-7c5928c58aa6.jpg",
             rating: "4.0",
-            url: "http://www2.nakhonphanom.go.th/food/detail/37/data.html"
+            url: "https://www.wongnai.com/r/144944vE"
         },
         {
             name: "Little Home",
             image: "https://s359.kapook.com//pagebuilder/ea85f953-d0e2-4321-9bd8-c3299d52f789.jpg",
             rating: "5.0",
-            url: "http://www2.nakhonphanom.go.th/food/detail/53/data.html"
+            url: "https://www.wongnai.com/r/451719Vq"
         },
         // เพิ่มสถานที่อื่นๆ ตามต้องการ
     ];
@@ -503,7 +503,7 @@ exports.cafegood = (location) => {
                     {
                         "type": "button",
                         "style": "primary",
-                        "color": "#00c300",
+                        "color": "#1CACE7",
                         "height": "md", // ลดขนาดปุ่มให้น้อยลง
                         "action": {
                             "type": "uri",
@@ -681,7 +681,7 @@ exports.accommodation = (location) => {
                             ...Array(5).fill().map((_, i) => ({
                                 "type": "icon",
                                 "size": "xs",
-                                "url": i < Math.floor(parseFloat(place.rating)) 
+                                "url": i < Math.floor(parseFloat(place.rating))
                                     ? "https://developers-resource.landpress.line.me/fx/img/review_gold_star_28.png"
                                     : "https://developers-resource.landpress.line.me/fx/img/review_gray_star_28.png"
                             })),
@@ -698,7 +698,7 @@ exports.accommodation = (location) => {
                     {
                         "type": "button",
                         "style": "primary",
-                        "color": "#00c300",
+                        "color": "#1CACE7",
                         "height": "md", // ลดขนาดปุ่มให้น้อยลง
                         "action": {
                             "type": "uri",
@@ -784,76 +784,123 @@ exports.accommodation = (location) => {
 
 exports.contact = (location) => {
     return {
-        "type": "imagemap",
-        "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/0a3324f8-8db3-4357-80f1-d32ef37e71a1",
-        "altText": "Imagemap generator By EX10",
-        "baseSize": {
-            "width": 1040,
-            "height": "1471"
-        },
-        "actions": [
-            {
-                "type": "uri",
-                "area": {
-                    "x": 100,
-                    "y": 311,
-                    "width": 838,
-                    "height": 183
+        "type": "flex",
+        "altText": "Contact Information",
+        "contents": {
+            "type": "carousel",
+            "contents": [
+                {
+                    "type": "bubble",
+                    "hero": {
+                        "type": "image",
+                        "url": "https://bucket.ex10.tech/images/0a4653ef-6d1e-11ef-ab4d-0242ac12000e/originalContentUrl.png",
+                        "size": "full",
+                        "aspectRatio": "4:5",
+                        "aspectMode": "cover"
+                    },
+                    "body": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "เบอร์โทรหน่วยงาน",
+                                "weight": "bold",
+                                "size": "xl"
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "ติดต่อสำนักงานจังหวัด",
+                                    "uri": "tel:042511578"
+                                }
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "ติดต่อสถานีขนส่ง",
+                                    "uri": "tel:042513444"
+                                }
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "ติดต่อการท่องเที่ยวและกีฬา",
+                                    "uri": "tel:0-4251-6337"
+                                }
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "ติดต่อเกษตรและสหกรณ์",
+                                    "uri": "tel:0-4251-5556"
+                                }
+                            }
+                        ]
+                    }
                 },
-                "linkUri": "tel:042511578"
-            },
-            {
-                "type": "uri",
-                "area": {
-                    "x": 100,
-                    "y": 540,
-                    "width": 834,
-                    "height": 173
-                },
-                "linkUri": "tel:042513444"
-            },
-            {
-                "type": "uri",
-                "area": {
-                    "x": 104,
-                    "y": 760,
-                    "width": 832,
-                    "height": 175
-                },
-                "linkUri": "tel:042516337"
-            },
-            {
-                "type": "uri",
-                "area": {
-                    "x": 96,
-                    "y": 981,
-                    "width": 832,
-                    "height": 179
-                },
-                "linkUri": "tel:042515556"
-            },
-            {
-                "type": "message",
-                "area": {
-                    "x": 39,
-                    "y": 1262,
-                    "width": 433,
-                    "height": 141
-                },
-                "text": "เมนูหลัก"
-            },
-            {
-                "type": "message",
-                "area": {
-                    "x": 549,
-                    "y": 1270,
-                    "width": 420,
-                    "height": 135
-                },
-                "text": "อื่นๆ"
-            }
-        ]
-    }
+                {
+                    "type": "bubble",
+                    "hero": {
+                        "type": "image",
+                        "url": "https://bucket.ex10.tech/images/1961dc63-6d1e-11ef-ab4d-0242ac12000e/originalContentUrl.png",
+                        "size": "full",
+                        "aspectRatio": "4:5",
+                        "aspectMode": "cover"
+                    },
+                    "body": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "เบอร์โทรฉุกเฉิน",
+                                "weight": "bold",
+                                "size": "xl"
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "ติดต่อกรมทางหลวงชนบท",
+                                    "uri": "tel:1146"
+                                }
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "ติดต่อเตือนภัยแห่งชาติ",
+                                    "uri": "tel:1860"
+                                }
+                            },
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "ติดต่อแพทย์ฉุกเฉินแห่งชาติ",
+                                    "uri": "tel:1669"
+                                }
+                            }
+                            ,
+                            {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "ติดต่ออุบัติเหตุทางน้ำ",
+                                    "uri": "tel:1196"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    };
 };
 exports.other = (location) => {
 
@@ -1004,12 +1051,12 @@ exports.examplePostback = (profile) => {
 exports.weatherFlex = (cityName, temperature, description, iconUrl) => {
     return {
         "type": "flex",
-        "altText": `Weather in ${cityName}`,
+        "altText": `สภาพอากาศใน ${cityName}`,
         "contents": {
             "type": "bubble",
             "hero": {
                 "type": "image",
-                "url": iconUrl || "https://example.com/default-icon.png", // Default icon if iconUrl is missing
+                "url": iconUrl || "https://example.com/default-weather-icon.png",
                 "size": "full",
                 "aspectRatio": "20:13",
                 "aspectMode": "cover"
@@ -1020,7 +1067,7 @@ exports.weatherFlex = (cityName, temperature, description, iconUrl) => {
                 "contents": [
                     {
                         "type": "text",
-                        "text": cityName || "Unknown Location", // Default city name
+                        "text": cityName || "ไม่ทราบสถานที่",
                         "weight": "bold",
                         "size": "xl",
                         "wrap": true
@@ -1028,22 +1075,52 @@ exports.weatherFlex = (cityName, temperature, description, iconUrl) => {
                     {
                         "type": "box",
                         "layout": "vertical",
-                        "margin": "md",
+                        "margin": "lg",
+                        "spacing": "sm",
                         "contents": [
                             {
-                                "type": "text",
-                                "text": `${temperature !== undefined ? temperature : 'N/A'}°C`, // Default temperature
-                                "size": "lg",
-                                "weight": "bold",
-                                "color": "#000000"
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "อุณหภูมิ",
+                                        "color": "#aaaaaa",
+                                        "size": "sm",
+                                        "flex": 1
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": `${temperature !== undefined ? temperature.toFixed(1) : 'N/A'}°C`,
+                                        "wrap": true,
+                                        "color": "#666666",
+                                        "size": "sm",
+                                        "flex": 5
+                                    }
+                                ]
                             },
                             {
-                                "type": "text",
-                                "text": description || "No description available", // Default description
-                                "size": "md",
-                                "color": "#888888",
-                                "wrap": true,
-                                "margin": "sm"
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "สภาพอากาศ",
+                                        "color": "#aaaaaa",
+                                        "size": "sm",
+                                        "flex": 1
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": description || "ไม่มีข้อมูล",
+                                        "wrap": true,
+                                        "color": "#666666",
+                                        "size": "sm",
+                                        "flex": 5
+                                    }
+                                ]
                             }
                         ]
                     }
