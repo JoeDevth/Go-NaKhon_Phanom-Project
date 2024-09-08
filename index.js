@@ -10,12 +10,13 @@ setGlobalOptions({
     memory: "1GB",
     concurrency: 40,
 })
-const axios = require('axios');
+
 
 const line = require('./util/line.util');
 const dialogflow = require('./util/dialogflow.util');
 const firebase = require('./util/firebase.util');
 const flex = require('./message/flex');
+const axios = require('axios');
 
 exports.helloWorld = onRequest((request, response) => {
     response.send(`Method : ${request, method} `);
@@ -33,26 +34,28 @@ function validateWebhook(request, response) {
 exports.webhook = onRequest(async (request, response) => {
     validateWebhook(request, response)
 
-    /*async function getWeatherData(cityName) {
-        try {
-            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${apiKey}`, {
-                params: {
-                    key: 'b0afe892ed7fb3349d2f3f63979893c1',
-                    q: cityName,
-                    lang: 'th'
-                }
-            });
-            const data = response.data;
-            return {
-                temperature: data.current.temp_c,
-                description: data.current.condition.text,
-                iconUrl: data.current.condition.icon
-            };
-        } catch (error) {
-            console.error("Error fetching weather data:", error.message);
-            return null;
-        }
-    }*/
+    /*  async function getWeatherData(cityName) {
+          try {
+              //const apiKey = 'b0afe892ed7fb3349d2f3f63979893c1'; // Make sure to secure this in production
+              const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather`, {
+                  params: {
+                      q: cityName,
+                      units: 'metric',
+                      appid: apiKey,
+                      lang: 'th'
+                  }
+              });
+              const data = response.data;
+              return {
+                  temperature: data.main.temp,
+                  description: data.weather[0].description,
+                  iconUrl: `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+              };
+          } catch (error) {
+              console.error("Error fetching weather data:", error.message);
+              return null;
+          }
+      }*/
 
     const events = request.body.events
     for (const event of events) {
@@ -117,13 +120,13 @@ exports.webhook = onRequest(async (request, response) => {
                     const restaurantKeywords = ["ร้านอาหาร", "แนะนำร้านอาหาร", "อาหารร้านดัง", "ร้านราคาถูก"];
                     const cafeKeywords = ["ร้านคาเฟ่", "คาเฟ่", "แนะนำคาเฟ่", "แนะนำร้านคาเฟ่", "กาแฟ", "คาเฟ่ร้านดัง", "คาเฟ่ราคาถูก"];
                     const accommodationKeywords = ["ที่พัก", "แนะนำที่พัก", "ที่พักดัง", "ที่พักราคาถูก", "โรงแรม"];
-                    const contactKeywords = ["ติดต่อ", "ข้อมูลติดต่อ", "เบอร์ฉูกเฉิน", "เบอร์โทรฉุกเฉิน", "เบอร์โทร"];
+                    const contactKeywords = ["ติดต่อ", "ข้อมูลติดต่อ", "เบอร์ฉุกเฉิน", "เบอร์โทรฉุกเฉิน", "เบอร์โทร", "สอบถาม"];
                     const othersKeywords = ["อื่นๆ", "อื่น ๆ", "ไม่รู้", "เพิ่มเติม"];
                     const WebsiteKeyword = ["web", "website", "ข้อมูลเพิ่มเติม", "ขอคำแนะนำ", "การใช้งาน", "วิธีใช้", "ลิ้ง", "เว็บ"]
                     const weatherKeywords = ["สภาพอากาศ", "ฝนตก", "อุณหภูมิ", "พยากรณ์อากาศ", "ฝนฟ้าอากาศ", "อากาศวันนี้"];
 
-                 /*   if (textMessage.includes("สภาพอากาศ")) {
-                         const cityName = "นครพนม";
+                /* if (weatherKeywords.some(keyword => textMessage.toLowerCase().includes(keyword))) {
+                        const cityName = "นครพนม"; // You can make this dynamic based on user input
                         const weatherData = await getWeatherData(cityName);
                         if (weatherData) {
                             const weatherFlexMessage = flex.weatherFlex(cityName, weatherData.temperature, weatherData.description, weatherData.iconUrl);
@@ -190,7 +193,7 @@ exports.webhook = onRequest(async (request, response) => {
 
                         await line.replyWithStateless(event.replyToken, [{
                             "type": "imagemap",
-                            "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/aae40847-152b-4f38-88b0-b85e41de4762",
+                            "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/f2299122-fbb5-41c6-ab7f-42b255cb0c02",
                             "altText": "รายการเมนูเพิ่มเติม",
                             "baseSize": {
                                 "width": 1040,
@@ -311,9 +314,246 @@ exports.webhook = onRequest(async (request, response) => {
                         }])
 
 
-                    } else if (weatherKeywords.some(keyword => textMessage.includes(keyword))) {
-                        await line.replyWithStateless(event.replyToken, [flex.exampleFlex()]);
 
+                    } else if (textMessage === "ข้อมูลทั่วไป") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "imagemap",
+                                "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/cabccd6b-a1f9-44f1-a910-d7271b4e51db",
+                                "altText": "ข้อมูลทั่วไปจังหวัดนครพนม",
+                                "baseSize": {
+                                    "width": 1040,
+                                    "height": 1471
+                                },
+                                "actions": [
+                                    {
+                                        "type": "message",
+                                        "area": {
+                                            "x": 33,
+                                            "y": 332,
+                                            "width": 458,
+                                            "height": 518
+                                        },
+                                        "text": "ที่ตั้งจังหวัดนครพนม"
+                                    },
+                                    {
+                                        "type": "message",
+                                        "area": {
+                                            "x": 520,
+                                            "y": 1049,
+                                            "width": 478,
+                                            "height": 387
+                                        },
+                                        "text": "คำขวัญ"
+                                    },
+                                ],
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าอื่นๆ",
+                                                "text": "อื่นๆ"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }])
+                    } else if (textMessage === "ที่ตั้งจังหวัดนครพนม") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "text",
+                                "text": "$ที่ตั้ง\nจังหวัดนครพนมเป็นจังหวัดชายแดนภาคตะวันออกเฉียงเหนือของประเทศไทย มีเนื้อที่ ประมาณ 5,528.88 ตารางกิโลเมตรหรือประมาณ 3,474,437 ไร่ (คิดเป็นร้อยละ 3 ของพื้นที่ภาค ตะวันออกเฉียงเหนือ) พื้นที่มีลักษณะเลียบยาวตามแนวชายฝั่งขวาของแม่น้ำโขงประมาณ 174 กิโลเมตร อยู่ระหว่างเส้นรุ้งที่ 16 -18 องศา เหนือ และระหว่างเส้นแวงที่ 104 -105 องศาตะวันออก มีระยะหางจาก กรุงเทพมหานคร ประมาณ 735 กิโลเมตร\n\n\n$อาณาเขตติดต่อกับจังหวัดใกล้เคียงและประเทศเพื่อนบ้าน ดังนี้\nทิศเหนือ ติดต่อกับอำเภอเซกาและอำเภอบึงโขงหลง จังหวัดบึงกาฬ ระยะทาง 158 กิโลเมตร\nทิศใต้ ติดต่อกับอำเภอดงหลวงและอำเภอหว้านใหญ่ จังหวัดมุกดาหาร ระยะทาง 104 กิโลเมตร\nทิศตะวันออก ติดต่อกับ แขวงคำม่วน และแขวงบอลิคําไซ สปป.ลาว โดยมีแม่น้ำโขงเป็นเส้นกั้น พรมแดน\nทิศตะวันตก ติดต่อกับอำเภอกุสุมาลย์ และอำเภออากาศอำนวย จังหวัดสกลนคร ระยะทาง 93 กิโลเมตร",
+                                "emojis": [
+                                    {
+                                        "index": 0,
+                                        "productId": "5ac21542031a6752fb806d55",
+                                        "emojiId": "119"
+                                    },
+                                    {
+                                        "index": 393,
+                                        "productId": "5ac21542031a6752fb806d55",
+                                        "emojiId": "119"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "text",
+                                "text": "คุณต้องการทำอะไรต่อ?",
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าข้อมูลทั่วไป",
+                                                "text": "ข้อมูลทั่วไป"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]);
+                    } else if (textMessage === "คำขวัญ") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "text",
+                                "text": "    ​​​​​​​  ​​​​​​​  ​​​​​​​  ​​​​​​​  ​​​​​​​  ​​​​​​​ $\n       พระธาตุพนมค่าล้ำ\n     วัฒนธรรมหลากหลาย\n             เรณูภูไท\n          เรือไฟโสภา\n         งามตาฝั่งโขง",
+                                "emojis": [
+                                    {
+                                        "index": 57,
+                                        "productId": "5ac21542031a6752fb806d55",
+                                        "emojiId": "243"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "text",
+                                "text": "คุณต้องการทำอะไรต่อ?",
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าข้อมูลทั่วไป",
+                                                "text": "ข้อมูลทั่วไป"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]);
+                    } else if (textMessage === "ประวัติศาสตร์") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "imagemap",
+                                "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/921e5e6e-40d9-4a2b-ae0c-5a1304086b62",
+                                "altText": "ประวัติศาสตร์จังหวัดนครพนม",
+                                "baseSize": {
+                                    "width": 1040,
+                                    "height": 1471
+                                },
+                                "actions": [
+                                    {
+                                        "type": "message",
+                                        "area": {
+                                            "x": 16,
+                                            "y": 330,
+                                            "width": 505,
+                                            "height": 524
+                                        },
+                                        "text": "ประวัติความเป็นมา"
+                                    },
+                                    {
+                                        "type": "message",
+                                        "area": {
+                                            "x": 526,
+                                            "y": 1054,
+                                            "width": 408,
+                                            "height": 401
+                                        },
+                                        "text": "ตราประจำจังหวัด"
+                                    }
+                                ],
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าอื่นๆ",
+                                                "text": "อื่นๆ"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]);
+                    } else if (textMessage === "ประวัติความเป็นมา") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "text",
+                                "text": "     จังหวัดนครพนม ตั้งอยู่ในภาคตะวันออกเฉียงเหนือของประเทศไทย มีประวัติสืบทอดยาวนาน เชื่อว่าเดิมศูนย์กลางของ \"อาณาจักรศรีโคตรบูร\" ที่รุ่งเรืองในอดีต ในช่วงต้นพุทธศตวรรษที่12 เป็นอาณาจักรอิสระ ไม่ขึ้นกับใคร ประมาณพุทธศตวรรษที่ 16 อาณาจักรศรีโคตรบูรณ์ ได้เสื่อมอำนาจลง ตกอยู่ภายใต้การปกครองของอาณาจักรขอม ต่อมาราวพุทธศตวรรษที่ 18 ชื่อของ \"ศรีโคตรบูร\" ได้กลายมาเป็นเมืองใน อาณาจักรล้านช้าง มีฐานะเป็นเมืองลูกหลวง โดยพระเจ้ากรุงศรีสัตนาคนหุต ล้านช้าง ทรงสร้างเมืองที่ปากห้วยหินบูร (ปากห้วยบรรจบลำ น้ำโขงฝั่งซ้ายตรงข้ามอำเภอท่าอุเทน เหนือเมืองนครพนม) และได้สืบทอดราชสมบัติต่ออีกหลายพระองค์\n\n\n    ภายหลังย้ายเมืองมาตั้งที่ป่าไม้รวก ห้วยศรีมัง ริมแม่น้ำโขงฝั่งซ้าย (คือเมืองเก่าใต้เมืองท่าแขกในปัจจุบัน) ถึงปีพุทธศักราช 2297 มี พระนครานุรักษ์ครองเมืองศรีโคตรบูร มีความเห็นว่าเมืองมิได้ตั้งอยู่ที่ปากห้วยแล้ว จึงได้เปลี่ยนนามเมืองใหม่ว่า \"เมืองมรุกขนคร\" เพราะถือว่าสร้างขึ้นในดงไม้รวก นามเมืองศรีโคตรบูรจึงเปลี่ยนไปตั้งแต่ครั้งนั้น\n\n\n    ช่วงประมาณพุทธศักราช 2309 สมัยพระบรมราชากู่แก้ว หลังจากชนะศึกกับพระนครานุรักษ์ (คำสิงห์) เจ้าราชบุตรเขยผู้ไปสวามิภักดิ์ต่อ พระเจ้าไชยเชษฐาธิราชที่ 2 (เจ้าองค์หล่อ) แห่งนครเวียงจันทน์ พระองค์ได้ย้ายเมืองข้ามฝั่งแม่น้ำโขงมาที่ปากบังฮวก (ฝั่งประเทศไทยปัจจุบัน คือบริเวณวัดมรุกขนคร ตำบลดอนนางหงส์ อำเภอธาตุพนม จังหวัดนครพนม) และต่อมาในปีพุทธศักราช 2321 พระเจ้ากรุงธนบุรีทรง พระกรุณาโปรดเกล้าฯ ให้สมเด็จเจ้าพระยามหากษัตริย์ศึก และเจ้าพระยาสุรสิงหนาท ยกทัพมาตีเอาหัวเมืองทางแถบแม่น้ำโขง รวมไปจนถึง นครเวียงจันทน์ เมืองมรุกขนครจึงได้ขึ้นกับกรุงธนบุรีในสมัยนี้ แต่ยังคงปกครองตนเองอยู่ หลังจากนั้น ราวปีพุทธศักราช 2322 สมัยพระบรมราชา (พรหมา) ได้ย้ายเมืองจากปากบังฮวก มาอยู่ที่บ้านหนองจันทร์ (ห่างจากตัวเมืองนครพนมไปทางทิศใต้ 4 กิโลเมตร) ตั้งชื่อเมืองใหม่ว่า \"นครบุรีราชธานี\"\n\n\n    ต่อมาในปีพุทธศักราช 2329 พระบาทสมเด็จพระพุทธยอดฟ้าจุฬาโลกมหาราช ทรงพระกรุณาโปรดเกล้าฯ ให้เปลี่ยนนามเมืองเสียใหม่ว่า \"เมืองนครพนม\" ขึ้นตรงต่อกรุงรัตนโกสินทร์ การที่พระราชทานนามว่า \"เมืองนครพนม\" สันนิษฐานได้ว่า อาจจะเนื่องด้วยเดิมเมืองนี้เป็นเมือง ลูกหลวงมาก่อน เป็นเมืองที่มีความสำคัญทางประวัติศาสตร์ จึงให้ใช้คำว่า \"นคร\" หรืออีกนัยหนึ่งคำว่า \"นคร\" นี้ อาจรักษาชื่อเมืองเดิมไว้ คือ \"เมืองนครบุรีราชธานี\" ส่วนคำว่า \"พนม\" อาจจะเนื่องด้วยจังหวัดนี้มีองค์พระธาตุพนมประดิษฐานอยู่หรืออาจจะเนื่องจากเดิมมีอาณาเขต ไกลไปถึงดินแดนฝั่งซ้ายของแม่น้ำโขง คือบริเวณเมืองท่าแขก ซึ่งภูเขาสลับซับซ้อนมากกมาย ไปจนถึงดินแดนของประเทศเวียดนาม จึงใช้คำว่า \"พนม\" แปลว่า \"ภูเขา\""
+                            },
+                            {
+                                "type": "text",
+                                "text": "คุณต้องการทำอะไรต่อ?",
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าประวัติศาสตร์",
+                                                "text": "ประวัติศาสตร์"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]);
+                    } else if (textMessage === "ตราประจำจังหวัด") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "text",
+                                "text": "$ ตราประจำจังหวัดของไทย มีพัฒนาการมาจากตราประจำตำแหน่งของเจ้าเมืองในสมัยสมบูรณาญาสิทธิราชย์ และตราประจำธงประจำกองลูกเสือ 14 มณฑล ในช่วงรัชกาลที่ 6 - 7 พ.ศ. 2483 จอมพลแปลก พิบูลสงครามเป็นนายกรัฐมนตรีในขณะนั้น ได้กำหนดให้แต่ละจังหวัดมีตราประจำจังหวัดของตนเอง โดยกรมศิลปากรเป็นผู้ออกแบบตราตามแนวคิดที่แต่ละจังหวัดกำหนดไว้ โดยของจังหวัดนครพนมนั้น มีสัญลักษณ์เป็นรูปพระธาตุพนม หมายถึง จังหวัดนครพนม มีพระธาตุพนมซึ่งเป็นพระธาตุเจดีย์อันศักดิ์สิทธิ์ ภายในบรรจุพระอุรังคธาตุ เป็นที่สักการะ ศูนย์รวมจิตใจ ความศรัทธาของชาวจังหวัดนครพนม ถือเป็นสิ่งศักดิ์สิทธิ์คู่เมืองนครพนมมาแต่โบราณกาลกว่า 2,500 ปี\n\nอักษรย่อจังหวัด: นพ.",
+                                "emojis": [
+                                    {
+                                        "index": 0,
+                                        "productId": "5ac21a18040ab15980c9b43e",
+                                        "emojiId": "016"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "text",
+                                "text": "คุณต้องการทำอะไรต่อ?",
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าประวัติศาสตร์",
+                                                "text": "ประวัติศาสตร์"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]);
+                    } else if (textMessage === "จุดผ่านแดน") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "text",
+                                "text": " จุดผ่านแดน\nจังหวัดนครพนม มีจุดผ่านแดนถาวร 2 แห่ง จุดผ่อนปรน 4 แห่ง ดังนี้\n\n1) จุดผ่านแดนถาวรสะพานมิตรภาพ 3 (นครพนม-คำมวน) บริเวณบ้านห้อม ตำบลอาจสามารถ อำเภอเมืองนครพนม\nเป็นเขตติดตอกับบ้านเวินใต้ เมืองท่าแขก แขวงคำมวน\nเปิดตั้งแต่ 06.00 – 22.00 น. ทุกวัน\n\n2) จุดผ่านแดนถาวร ท่าเทียบเรือเทศบาลเมืองนครพนม ตำบลในเมือง อำเภอเมืองนครพนม\nติดต่อกับเมืองท่าแขก แขวงคำมวน\nเปิดตั้งแต่ 08.00 – 18.00 น. ทุกวัน\n\n3) จุดผ่อนปรนบ้านหนาดท่า หมู่ 2 ตำบลบ้านกลาง อำเภอเมืองนครพนม\nเป็นเขตติดต่อกับ บ้านปากเป่ง เมืองท่าแขก\nเปิดตั้งแต่ 08.00 – 14.00 น. ทุกวันอังคารและวันศุกร์\n\n4) จุดผ่อนปรนบ้านโพธิ์ไทร ตำบลไผ่ล้อม อำเภอบ้านแพง\nเป็นเขตติดต่อกับบ้านท่าสะอาด เมืองปากกระดิ่ง แขวงบอลิคำไซ\nเปิดตั้งแต่ 08.00 – 16.00 น. ทุกวันจันทร์ถึงวันศุกร์\n\n5) จุดผ่อนปรนบ้านธาตุพนมสามัคคี หมูที่ 2 อำเภอธาตุพนม\nเป็นเขตติดต่อกับบ้านด่าน เมืองหนองบก แขวงคำม่วน\nเปิดตั้งแต่ 06.00 – 16.30 น. ทุกวันจันทร์ถึงวันศุกร์\n\n6) จุดผ่อนปรนบ้านทาอุเทน ตําบลท่าอุเทน อำเภอท่าอุเทน\nเป็นเขตติดต่อกับบ้านหินบูน เมืองหินบูน แขวงคำม่วน\nเปิดตั้งแต่ 08.00 – 16.00 น. ทุกวันจันทร์และวันพฤหัสบดี",
+                            },
+                            {
+                                "type": "text",
+                                "text": "คุณต้องการทำอะไรต่อ?",
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "กลับไปหน้าอื่นๆ",
+                                                "text": "อื่นๆ"
+                                            }
+                                        },
+                                    ]
+                                }
+                            }
+                        ]);
                     } else if (textMessage === "แผนที่หลัก") {
 
                         await line.replyWithStateless(event.replyToken, [{
@@ -321,8 +561,8 @@ exports.webhook = onRequest(async (request, response) => {
                             "baseUrl": "https://www.nakhonpanom.com/wp-content/uploads/2023/07/357521243_717367680398404_3279286131874078030_n-1.jpg",
                             "altText": "Imagemap",
                             "baseSize": {
-                                "width": 1040,
-                                "height": 1500
+                                "width": 1200,
+                                "height": 1600
                             },
                             "actions": [{
                                 "type": "uri",
@@ -394,32 +634,6 @@ exports.webhook = onRequest(async (request, response) => {
                                 ]
                             }
                         }])
-                    } else if (textMessage === "ประวัติศาสตร์") {
-                        await line.replyWithStateless(event.replyToken, [
-                            {
-                                "type": "imagemap",
-                                "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/77229c7f-280b-4b95-848d-dd95c630afcb",
-                                "altText": "ประวัติศาสตร์จังหวัดนครพนม",
-                                "baseSize": {
-                                    "width": 1040,
-                                    "height": 1471
-                                },
-                                "actions": [],
-                                "quickReply": {
-                                    "items": [
-                                        {
-                                            "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
-                                            "action": {
-                                                "type": "message",
-                                                "label": "กลับไปหน้าอื่นๆ",
-                                                "text": "อื่นๆ"
-                                            }
-                                        },
-                                    ]
-                                }
-                            }
-                        ]);
                     } else if (textMessage === "วัฒนธรรมองค์กร") {
                         await line.replyWithStateless(event.replyToken, [
                             {
@@ -446,69 +660,92 @@ exports.webhook = onRequest(async (request, response) => {
                                 }
                             }
                         ]);
-                    } else if (textMessage === "วัฒนธรรมองค์กร") {
+                    } else if (textMessage === "วิสัยทัศน์/พันธกิจ") {
                         await line.replyWithStateless(event.replyToken, [
                             {
                                 "type": "text",
-                                "text": "วิสัยทัศน์/Visionเมืองน่าอยู่ ประตูเศรษฐกิจสู่อนุภูมิภาคลุ่มแม่น้ำโขงพันธกิจ/Missionด้านเศรษฐกิจสร้างความเจริญเติบโตทางเศรษฐกิจให้จังหวัดโดยเพิ่มขีดความสามารถในการแข่งขันของผู้ประกอบการ และประชาชนในพื้นที่เป็นหลัก ควบคู่กับการส่งเสริมการลงทุนจากนักลงทุน SMEs ในท้องถิ่น ระดับประเทศ และระหว่างประเทศในด้านที่จังหวัดมีศักยภาพ\nการพัฒนาเกษตรปลอดสารพิษและอุตสาหกรรมการเกษตรที่เป็นมิตรต่อสิ่งแวดล้อม เพื่อให้จังหวัดนครพนมหลุดพ้นจากจังหวัดที่ประชาชนมีสถานะทางเศรษฐกิจและสังคมในระดับต่ำ ไปสู่จังหวัดที่ประชาชนโดยเพิ่มขีดความสามารถในการแข่งขันของผู้ประกอบการ และประชาชนในพื้นที่เป็นหลัก ควบคู่กับการส่งเสริมการลงทุนจากนักลงทุน SMEs ในท้องถิ่น ระดับประเทศ และระหว่างประเทศในด้านที่จังหวัดมีศักยภาพการพัฒนาเกษตรปลอดสารพิษและอุตสาหกรรมการเกษตรที่เป็นมิตรต่อสิ่งแวดล้อม เพื่อให้จังหวัดนครพนมหลุดพ้นจากจังหวัดที่ประชาชนมีสถานะทางเศรษฐกิจและสังคมในระดับต่ำ ไปสู่จังหวัดที่ประชาชนมีสถานะทางเศรษฐกิจและสังคมในระดับสูงพ้นความยากจน โดยยึดหลักการพัฒนาตามแนวทางปรัชญาของเศรษฐกิจพอเพียง และใช้นวัตกรรมด้านสังคมส่งเสริมให้ประชาชนมีคุณภาพชีวิตที่ดี สุขภาพดี ได้รับโอกาสทางการรักษาพยาบาลที่ได้มาตรฐาน ยกระดับไปสู่การรองรับสังคมผู้สูงอายุส่งเสริมให้มีการเข้าถึงโอกาสทางการศึกษาจากหลักสูตรและสถานศึกษาคุณภาพสูงส่งเสริมให้มีการประกอบอาชีพและที่มีหลักประกันการดำรงชีวิตที่มั่นคง้านความมั่นคงเสริมสร้างให้ชุมชนเข้มแข็ง พื้นที่ชายแดนปลอดยาเสพติดและภัยคุกคามทุกประเภท ด้วยเทคโนโลยีสารสนเทศที่ทันสมัย สร้างสังคมสันติสุขและมีความสัมพันธ์อันดีกับประเทศเพื่อนบ้าน้านทรัพยากรธรรมชาติและสิ่งแวดล้อม\nมุ่งสู่การเป็นเมืองพัฒนาที่เป็นมิตรต่อสิ่งแวดล้อมปลอดมลพิษ การบริหารจัดการต้นแบบแห่งอนุภูมิภาคลุ่มน้ำโขง ด้วยการอนุรักษ์ฟื้นฟูทรัพยากรธรรมชาติและสิ่งแวดล้อมอย่างยั่งยืน โดยเน้นกระบวนการมีส่วนร่วมของทุกภาคส่วการบริหารจัดการมุ่งเน้นการพัฒนาเพิ่มสมรรถนะบุคลากร กระบวนการทำงานให้มีประสิทธิภาพ สะดวก รวดเร็ว และบูรณาการระบบการบริหารจัดการภาครัฐ เอกชน และประชาชน ด้วยเทคโนโลยีสารสนเทศที่ทันสมัย ภายใต้หลักธรรมาภิบาลขององค์กร เพื่อความโปร่งใส ตรวจสอบได้"
+                                "text": "$วิสัยทัศน์/Vision\n\"เมืองน่าอยู่ ประตูเศรษฐกิจสู่อนุภูมิภาคลุ่มแม่น้ำโขง\"\n\n$พันธกิจ/Mission\n\nด้านเศรษฐกิจ\nสร้างความเจริญเติบโตทางเศรษฐกิจให้จังหวัดโดยเพิ่มขีดความสามารถในการแข่งขันของผู้ประกอบการ และประชาชนในพื้นที่เป็นหลัก ควบคู่กับการส่งเสริมการลงทุนจากนักลงทุน SMEs ในท้องถิ่น ระดับประเทศ และระหว่างประเทศในด้านที่จังหวัดมีศักยภาพ\nการพัฒนาเกษตรปลอดสารพิษและอุตสาหกรรมการเกษตรที่เป็นมิตรต่อสิ่งแวดล้อม เพื่อให้จังหวัดนครพนมหลุดพ้นจากจังหวัดที่ประชาชนมีสถานะทางเศรษฐกิจและสังคมในระดับต่ำ ไปสู่จังหวัดที่ประชาชนมีสถานะทางเศรษฐกิจและสังคมในระดับสูงพ้นความยากจน โดยยึดหลักการพัฒนาตามแนวทางปรัชญาของเศรษฐกิจพอเพียง และใช้นวัตกรรม\n\n\nด้านสังคม\nส่งเสริมให้ประชาชนมีคุณภาพชีวิตที่ดี สุขภาพดี ได้รับโอกาสทางการรักษาพยาบาลที่ได้มาตรฐาน ยกระดับไปสู่การรองรับสังคมผู้สูงอายุ\nส่งเสริมให้มีการเข้าถึงโอกาสทางการศึกษาจากหลักสูตรและสถานศึกษาคุณภาพสูง\nส่งเสริมให้มีการประกอบอาชีพและที่มีหลักประกันการดำรงชีวิตที่มั่นคง\nด้านความมั่นคง เสริมสร้างให้ชุมชนเข้มแข็ง พื้นที่ชายแดนปลอดยาเสพติดและภัยคุกคามทุกประเภท ด้วยเทคโนโลยีสารสนเทศที่ทันสมัย สร้างสังคมสันติสุขและมีความสัมพันธ์อันดีกับประเทศเพื่อนบ้าน\n\n\nด้านทรัพยากรธรรมชาติและสิ่งแวดล้อม \nมุ่งสู่การเป็นเมืองพัฒนาที่เป็นมิตรต่อสิ่งแวดล้อมปลอดมลพิษ การบริหารจัดการต้นแบบแห่ง อนุภูมิภาคลุ่มน้ำโขง ด้วยการอนุรักษ์ฟื้นฟูทรัพยากรธรรมชาติและสิ่งแวดล้อมอย่างยั่งยืน โดยเน้นระบวนการ มีส่วนร่วมของทุกภาคส่วน\n\n\nการบริหารจัดการ \nมุ่งเน้นการพัฒนาเพิ่มสมรรถนะบุคลากร กระบวนการทำงานให้มีประสิทธิภาพ สะดวก รวดเร็ว และบูรณาการระบบการบริหารจัดการภาครัฐ เอกชน และประชาชน ด้วยเทคโนโลยีสารสนเทศที่ทันสมัย ไทยแลนด์ 4.0 ภายใต้หลักธรรมาภิบาลขององค์กร เพื่อความโปร่งใส ตรวจสอบได้",
+                                "emojis": [
+                                    {
+                                        "index": 0,
+                                        "productId": "5ac21542031a6752fb806d55",
+                                        "emojiId": "029"
+                                    },
+                                    {
+                                        "index": 75,
+                                        "productId": "5ac21542031a6752fb806d55",
+                                        "emojiId": "100"
+                                    }
+                                ]
                             },
                             {
                                 "type": "text",
                                 "text": "คุณต้องการทำอะไรต่อ?",
+
                                 "quickReply": {
-                                    "items": [
-                                        {
-                                            "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
-                                            "action": {
-                                                "type": "message",
-                                                "label": "กลับไปหน้าอื่นๆ",
-                                                "text": "อื่นๆ"
-                                            }
-                                        },
+                                    "items": [{
+                                        "type": "action",
+                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "action": {
+                                            "type": "message",
+                                            "label": "เมนูหลัก",
+                                            "text": "เมนูหลัก"
+                                        }
+                                    }, {
+                                        "type": "action",
+                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "action": {
+                                            "type": "message",
+                                            "label": "ร้านอาหาร",
+                                            "text": "ร้านอาหาร"
+                                        }
+                                    },
+                                    {
+                                        "type": "action",
+                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "action": {
+                                            "type": "message",
+                                            "label": "สถานที่ท่องเที่ยว",
+                                            "text": "สถานที่ท่องเที่ยว"
+                                        }
+                                    },
+                                    {
+                                        "type": "action",
+                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "action": {
+                                            "type": "message",
+                                            "label": "ร้านคาเฟ่",
+                                            "text": "ร้านคาเฟ่"
+                                        }
+                                    },
+                                    {
+                                        "type": "action",
+                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "action": {
+                                            "type": "message",
+                                            "label": "โรงแรมที่พัก",
+                                            "text": "โรงแรมที่พัก"
+                                        }
+                                    },
+                                    {
+                                        "type": "action",
+                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "action": {
+                                            "type": "message",
+                                            "label": "อื่นๆ",
+                                            "text": "อื่นๆ"
+                                        }
+                                    },
                                     ]
                                 }
                             }
                         ]);
-                    }
-
-
-                    else if (textMessage === "ข้อมูลทั่วไป") {
-                        await line.replyWithStateless(event.replyToken, [
-                            {
-                                "type": "imagemap",
-                                "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/9b42693b-1094-4353-a863-78a0efdb832a",
-                                "altText": "ข้อมูลทั่วไปจังหวัดนครพนม",
-                                "baseSize": {
-                                    "width": 1040,
-                                    "height": 1471
-                                },
-                                "actions": []
-                                ,
-                                "quickReply": {
-                                    "items": [
-                                        {
-                                            "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
-                                            "action": {
-                                                "type": "message",
-                                                "label": "กลับไปหน้าอื่นๆ",
-                                                "text": "อื่นๆ"
-                                            }
-                                        },
-                                    ]
-                                }
-                            }
-                        ]);
-                    }
-                    else if (textMessage === "เมนูหลัก") {
+                    } else if (textMessage === "เมนูหลัก") {
 
                         await line.replyWithStateless(event.replyToken, [{
-                            "type": "text",
-                            "text": `วันนี้อยากทำอะไรดี น้องโกขอแนะนำ คุณสามารถเลือกเมนูได้ดังนี้เลย 🛋️🏨🥗🥘😍`,
                             "type": "imagemap",
                             "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/d06ee487-ab05-4d56-95c8-b78ada076b63",
-                            "altText": "Imagemap generator By EX10",
+                            "altText": "Imagemap Menu",
                             "baseSize": {
                                 "width": 1040,
                                 "height": 701
@@ -576,6 +813,8 @@ exports.webhook = onRequest(async (request, response) => {
                                 }
                             ]
                         }])
+                    } else if (weatherKeywords.some(keyword => textMessage.includes(keyword))) {
+                        await line.replyWithStateless(event.replyToken, [flex.exampleFlex()]);
                     } else {
                         /* Foward to Dialogflow */
                         await dialogflow.forwardDialodflow(request)
@@ -592,30 +831,9 @@ exports.webhook = onRequest(async (request, response) => {
                     */
 
                     /*
-                        https://medium.com/linedevth/111ea6c17ada
-                    */
-                    let msg = JSON.stringify(event)
+                     https://medium.com/linedevth/111ea6c17ada
+                     */
 
-                    if (event.source.type === "group") {
-
-                        const validateEventType = ['image', 'audio', 'video', 'file']
-                        if (validateEventType.includes(event.message.type)) {
-                            const resGetContent = await line.getContent(event.message, event.message.id)
-                            console.log("binary ", binary.fileName);
-                            // fileName = resGetContent.fileName
-                            // todo save binary to firestore
-                            binary = resGetContent.binary
-
-                            const publicUrl = await firebase.saveImageToStorage(event.source.groupId, resGetContent.fileName, resGetContent.binary)
-                            await firebase.insertImageGroup(event.source.groupId, event.message.id, publicUrl)
-                            msg = publicUrl
-                        }
-                    }
-
-                    await line.replyWithLongLived(event.replyToken, [{
-                        "type": "text",
-                        "text": msg,
-                    }])
                 }
                 break;
             case "unsend":
@@ -628,8 +846,8 @@ exports.webhook = onRequest(async (request, response) => {
                 break;
             case "join":
                 /*
-                    join
-                    https://developers.line.biz/en/reference/messaging-api/#join-event
+                join
+                https://developers.line.biz/en/reference/messaging-api/#join-event
                 */
 
                 await line.replyWithLongLived(event.replyToken, [{
@@ -658,7 +876,7 @@ exports.webhook = onRequest(async (request, response) => {
                 break;
             case "leave":
                 /*
-                    leave
+                leave
                     https://developers.line.biz/en/reference/messaging-api/#leave-event
                 */
                 console.log(JSON.stringify(event));
