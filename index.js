@@ -17,6 +17,7 @@ const dialogflow = require('./util/dialogflow.util');
 const firebase = require('./util/firebase.util');
 const flex = require('./message/flex');
 const axios = require('axios');
+const bot = require('./util/Gemini');
 
 exports.helloWorld = onRequest((request, response) => {
     response.send(`Method : ${request, method} `);
@@ -31,31 +32,32 @@ function validateWebhook(request, response) {
     }
 }
 
+// ฟังก์ชันสำหรับจัดการเหตุการณ์เมื่อผู้ใช้เปิดแชท
+async function handleFollow(event) {
+    const profile = await client.getProfile(event.source.userId);
+    
+    const message = {
+      type: 'text',
+      text: `ยินดีต้อนรับคุณ ${profile.displayName} คุณสามารถพูดคุย สนทนากับ admin ได้เลย`,
+      quickReply: {
+        items: [
+          {
+            type: 'action',
+            action: {
+              type: 'message',
+              label: 'สวัสดี',
+              text: 'สวัสดี'
+            }
+          }
+        ]
+      }
+    };
+  
+    return client.replyMessage(event.replyToken, message);
+  }
+  
 exports.webhook = onRequest(async (request, response) => {
     validateWebhook(request, response)
-
-    /*  async function getWeatherData(cityName) {
-          try {
-              //const apiKey = 'b0afe892ed7fb3349d2f3f63979893c1'; // Make sure to secure this in production
-              const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather`, {
-                  params: {
-                      q: cityName,
-                      units: 'metric',
-                      appid: apiKey,
-                      lang: 'th'
-                  }
-              });
-              const data = response.data;
-              return {
-                  temperature: data.main.temp,
-                  description: data.weather[0].description,
-                  iconUrl: `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-              };
-          } catch (error) {
-              console.error("Error fetching weather data:", error.message);
-              return null;
-          }
-      }*/
 
     const events = request.body.events
     for (const event of events) {
@@ -71,14 +73,9 @@ exports.webhook = onRequest(async (request, response) => {
                 /*
                     Greeting Message for new friend
                 */
-                profile = await line.getProfile(event.source.userId)
-
-                console.log(":------");
-                console.log(JSON.stringify(profile));
-                console.log(":------");
+                await handleFollow(event);
 
 
-                let text = `ยินดีต้อนรับคุณ ${profile.displayName} คุณสามารถพูดคุย สนทนากับ admin ได้เลย`
                 if (event.follow.isUnblocked) {
                     /*
                         Greeting Message for Old Friend
@@ -118,39 +115,51 @@ exports.webhook = onRequest(async (request, response) => {
                     const sayhiKeywords = ["สวัสดี", "ดี", "hi", "หวัดดีจ้า", "สวัสดีจ้า", "สวัสดีครับ", "สวัสดีค่ะ", "ทักทาย", "Hi", "ทัก"];
                     const travelKeywords = ["ท่องเที่ยว", "แนะนำที่เที่ยว", "สถานที่ท่องเที่ยว", "ที่เที่ยว", "ที่ท่องเที่ยวโด่งดัง"];
                     const restaurantKeywords = ["ร้านอาหาร", "แนะนำร้านอาหาร", "อาหารร้านดัง", "ร้านราคาถูก"];
-                    const cafeKeywords = ["ร้านคาเฟ่", "คาเฟ่", "แนะนำคาเฟ่", "แนะนำร้านคาเฟ่", "กาแฟ", "คาเฟ่ร้านดัง", "คาเฟ่ราคาถูก"];
+                    const cafeKeywords = ["ร้านคาเฟ่", "คาเฟ่", "แนะนำคาเฟ่", "แนะนำร้านคาเฟ่", "กาแฟ", "คาเฟ่ร้านดัง", "คาเฟ่ราคาถูก","อยากกินน้ำเย็นๆ"];
                     const accommodationKeywords = ["ที่พัก", "แนะนำที่พัก", "ที่พักดัง", "ที่พักราคาถูก", "โรงแรม"];
                     const contactKeywords = ["ติดต่อ", "ข้อมูลติดต่อ", "เบอร์ฉุกเฉิน", "เบอร์โทรฉุกเฉิน", "เบอร์โทร", "สอบถาม"];
                     const othersKeywords = ["อื่นๆ", "อื่น ๆ", "ไม่รู้", "เพิ่มเติม"];
                     const WebsiteKeyword = ["web", "website", "ข้อมูลเพิ่มเติม", "ขอคำแนะนำ", "การใช้งาน", "วิธีใช้", "ลิ้ง", "เว็บ"]
                     const weatherKeywords = ["สภาพอากาศ", "ฝนตก", "อุณหภูมิ", "พยากรณ์อากาศ", "ฝนฟ้าอากาศ", "อากาศวันนี้"];
 
-                /* if (weatherKeywords.some(keyword => textMessage.toLowerCase().includes(keyword))) {
-                        const cityName = "นครพนม"; // You can make this dynamic based on user input
-                        const weatherData = await getWeatherData(cityName);
-                        if (weatherData) {
-                            const weatherFlexMessage = flex.weatherFlex(cityName, weatherData.temperature, weatherData.description, weatherData.iconUrl);
-                            await line.replyWithStateless(event.replyToken, [weatherFlexMessage]);
-                        } else {
-                            await line.replyWithStateless(event.replyToken, [{
-                                "type": "text",
-                                "text": "ขออภัย ไม่สามารถดึงข้อมูลสภาพอากาศได้ในขณะนี้"
-                            }]);
-                        }
-                    }*/if (weatherKeywords.some(keyword => textMessage.includes(keyword))) {
+                    if (weatherKeywords.some(keyword => textMessage.includes(keyword))) {
                         await line.replyWithStateless(event.replyToken, [flex.weatherFlex()])
 
                     } if (sayhiKeywords.some(keyword => textMessage.includes(keyword))) {
-
-                        console.log([{
-                            "type": "text",
-                            "text": JSON.stringify(event),
-                        }]);
-
-                        profile = await line.getProfile(event.source.userId)
-                        console.log('profile', profile);
-                        await line.replyWithStateless(event.replyToken, [flex.examplePostback(JSON.stringify(profile))])
-
+                        console.log(event); // แสดง event ใน console
+                    
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "text",
+                                "text": "สวัสดีครับ น้องโก ยินดีต้อนรับครับ! 🌟\nเลือกทำรายการในเมนูด้านล่างได้เลยครับ!"
+                            }, 
+                            {
+                                "type": "text",
+                                "text": "คุณต้องการทำอะไรต่อ?",
+                                "quickReply": {
+                                    "items": [
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/hi_10246744.gif",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "คุยกับน้องโก",
+                                                "text": "บอทน้องโก"
+                                            }
+                                        },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/info_15578567.gif",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "เกี่ยวกับนครพนม",
+                                                "text": "ปรึกษาเกี่ยวกับจังหวัดนครพนม"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]);
                     } else if (travelKeywords.some(keyword => textMessage.includes(keyword))) {
                         const location = travelKeywords.find(keyword => textMessage.includes(keyword));
                         await line.replyWithStateless(event.replyToken, [flex.exampleFlex(location)]);
@@ -177,17 +186,6 @@ exports.webhook = onRequest(async (request, response) => {
 
                     } else if (travelKeywords.some(keyword => textMessage.includes(keyword))) {
                         await line.replyWithStateless(event.replyToken, [flex.exampleFlex()]);
-
-                    } else if (WebsiteKeyword.some(keyword => textMessage.includes(keyword))) {
-
-                        console.log([{
-                            "type": "text",
-                            "text": JSON.stringify(event),
-                        }]);
-
-                        profile = await line.getProfile(event.source.userId)
-                        console.log('profile', profile);
-                        await line.replyWithStateless(event.replyToken, [flex.examplePostback(JSON.stringify(profile))])
 
                     } else if (othersKeywords.some(keyword => textMessage.includes(keyword))) {
 
@@ -238,7 +236,7 @@ exports.webhook = onRequest(async (request, response) => {
                                         "width": 842,
                                         "height": 168
                                     },
-                                    "text": "แผนที่หลัก"
+                                    "text": "แผนที่"
                                 },
                                 {
                                     "type": "message",
@@ -265,50 +263,34 @@ exports.webhook = onRequest(async (request, response) => {
                                 "name": "น้องโก",
                                 "iconUrl": ""
                             }, "quickReply": {
-                                "items": [{
+                                "items": [
+                                {
                                     "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "imageUrl": "https://img5.pic.in.th/file/secure-sv1/calendar_9448652.gif",
                                     "action": {
                                         "type": "message",
-                                        "label": "เมนูหลัก",
-                                        "text": "เมนูหลัก"
-                                    }
-                                }, {
-                                    "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "ร้านอาหาร",
-                                        "text": "ร้านอาหาร"
+                                        "label": "ปฏิทิน",
+                                        "text": "ปฏิทิน"
                                     }
                                 },
                                 {
                                     "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "imageUrl": "https://img2.pic.in.th/pic/bangkok_17428608.gif", //แปะรูปไอคอนด้วย
                                     "action": {
                                         "type": "message",
-                                        "label": "สถานที่ท่องเที่ยว",
-                                        "text": "สถานที่ท่องเที่ยว"
+                                        "label": "เที่ยว 7 วัด 7 อำเภอ",
+                                        "text": "บอทน้องโก ปรึกษาการเดินทางไหว้พระธาตุ 7 วัดตามอ. ในจังหวัดนครพนม"
                                     }
                                 },
                                 {
                                     "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "imageUrl": "https://img5.pic.in.th/file/secure-sv1/shopping-bag_17093473.gif", //แปะรูปไอคอนด้วย
                                     "action": {
                                         "type": "message",
-                                        "label": "ร้านคาเฟ่",
-                                        "text": "ร้านคาเฟ่"
+                                        "label": "สินค้า OTOP",
+                                        "text": "สินค้าotop หรือของฝากในนครพนม มีอะไรบ้าง ที่ไหนมีขาย"
                                     }
-                                },
-                                {
-                                    "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "โรงแรมที่พัก",
-                                        "text": "โรงแรมที่พัก"
-                                    }
-                                },
+                                }
                                 ]
                             }
                         }])
@@ -320,7 +302,7 @@ exports.webhook = onRequest(async (request, response) => {
                             {
                                 "type": "imagemap",
                                 "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/cabccd6b-a1f9-44f1-a910-d7271b4e51db",
-                                "altText": "ข้อมูลทั่วไปจังหวัดนครพนม",
+                                "altText": "imagemap ข้อมูลทั่วไปจังหวัดนครพนม",
                                 "baseSize": {
                                     "width": 1040,
                                     "height": 1471
@@ -347,17 +329,45 @@ exports.webhook = onRequest(async (request, response) => {
                                         "text": "คำขวัญ"
                                     },
                                 ],
+                                
                                 "quickReply": {
                                     "items": [
                                         {
                                             "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/left-arrow_6839001.gif",
                                             "action": {
                                                 "type": "message",
                                                 "label": "กลับไปหน้าอื่นๆ",
                                                 "text": "อื่นๆ"
                                             }
                                         },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/calendar_9448652.gif",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "ปฏิทิน",
+                                                "text": "ปฏิทิน"
+                                            }
+                                        },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img2.pic.in.th/pic/bangkok_17428608.gif", //แปะรูปไอคอนด้วย
+                                            "action": {
+                                                "type": "message",
+                                                "label": "เที่ยว 7 วัด 7 อำเภอ",
+                                                "text": "บอทน้องโก ปรึกษาการเดินทางไหว้พระธาตุ 7 วัดตามอ. ในจังหวัดนครพนม"
+                                            }
+                                        },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/shopping-bag_17093473.gif", //แปะรูปไอคอนด้วย
+                                            "action": {
+                                                "type": "message",
+                                                "label": "สินค้า OTOP",
+                                                "text": "สินค้าotop หรือของฝากในนครพนม มีอะไรบ้าง ที่ไหนมีขาย"
+                                            }
+                                        }
                                     ]
                                 }
                             }])
@@ -386,7 +396,7 @@ exports.webhook = onRequest(async (request, response) => {
                                     "items": [
                                         {
                                             "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/left-arrow_6839001.gif",
                                             "action": {
                                                 "type": "message",
                                                 "label": "กลับไปหน้าข้อมูลทั่วไป",
@@ -417,7 +427,7 @@ exports.webhook = onRequest(async (request, response) => {
                                     "items": [
                                         {
                                             "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/calendar_9448652.gif",
                                             "action": {
                                                 "type": "message",
                                                 "label": "กลับไปหน้าข้อมูลทั่วไป",
@@ -433,7 +443,7 @@ exports.webhook = onRequest(async (request, response) => {
                             {
                                 "type": "imagemap",
                                 "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/921e5e6e-40d9-4a2b-ae0c-5a1304086b62",
-                                "altText": "ประวัติศาสตร์จังหวัดนครพนม",
+                                "altText": "Imagemap ประวัติศาสตร์จังหวัดนครพนม",
                                 "baseSize": {
                                     "width": 1040,
                                     "height": 1471
@@ -464,13 +474,41 @@ exports.webhook = onRequest(async (request, response) => {
                                     "items": [
                                         {
                                             "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/left-arrow_6839001.gif",
                                             "action": {
                                                 "type": "message",
                                                 "label": "กลับไปหน้าอื่นๆ",
                                                 "text": "อื่นๆ"
                                             }
                                         },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/calendar_9448652.gif",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "ปฏิทิน",
+                                                "text": "ปฏิทิน"
+                                            }
+                                        },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img2.pic.in.th/pic/bangkok_17428608.gif", //แปะรูปไอคอนด้วย
+                                            "action": {
+                                                "type": "message",
+                                                "label": "เที่ยว 7 วัด 7 อำเภอ",
+                                                "text": "บอทน้องโก ปรึกษาการเดินทางไหว้พระธาตุ 7 วัดตามอ. ในจังหวัดนครพนม"
+                                            }
+                                        },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/shopping-bag_17093473.gif", //แปะรูปไอคอนด้วย
+                                            "action": {
+                                                "type": "message",
+                                                "label": "สินค้า OTOP",
+                                                "text": "สินค้าotop หรือของฝากในนครพนม มีอะไรบ้าง ที่ไหนมีขาย"
+                                            }
+                                        }
+                                        
                                     ]
                                 }
                             }
@@ -488,7 +526,7 @@ exports.webhook = onRequest(async (request, response) => {
                                     "items": [
                                         {
                                             "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/left-arrow_6839001.gif",
                                             "action": {
                                                 "type": "message",
                                                 "label": "กลับไปหน้าประวัติศาสตร์",
@@ -519,7 +557,7 @@ exports.webhook = onRequest(async (request, response) => {
                                     "items": [
                                         {
                                             "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/left-arrow_6839001.gif",
                                             "action": {
                                                 "type": "message",
                                                 "label": "กลับไปหน้าประวัติศาสตร์",
@@ -543,35 +581,63 @@ exports.webhook = onRequest(async (request, response) => {
                                     "items": [
                                         {
                                             "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/left-arrow_6839001.gif",
                                             "action": {
                                                 "type": "message",
                                                 "label": "กลับไปหน้าอื่นๆ",
                                                 "text": "อื่นๆ"
                                             }
                                         },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/calendar_9448652.gif",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "ปฏิทิน",
+                                                "text": "ปฏิทิน"
+                                            }
+                                        },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img2.pic.in.th/pic/bangkok_17428608.gif", //แปะรูปไอคอนด้วย
+                                            "action": {
+                                                "type": "message",
+                                                "label": "เที่ยว 7 วัด 7 อำเภอ",
+                                                "text": "บอทน้องโก ปรึกษาการเดินทางไหว้พระธาตุ 7 วัดตามอ. ในจังหวัดนครพนม"
+                                            }
+                                        },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/shopping-bag_17093473.gif", //แปะรูปไอคอนด้วย
+                                            "action": {
+                                                "type": "message",
+                                                "label": "สินค้า OTOP",
+                                                "text": "สินค้าotop หรือของฝากในนครพนม มีอะไรบ้าง ที่ไหนมีขาย"
+                                            }
+                                        }
                                     ]
                                 }
                             }
                         ]);
-                    } else if (textMessage === "แผนที่หลัก") {
+                    } else if (textMessage === "แผนที่") {
 
                         await line.replyWithStateless(event.replyToken, [{
                             "type": "imagemap",
                             "baseUrl": "https://www.nakhonpanom.com/wp-content/uploads/2023/07/357521243_717367680398404_3279286131874078030_n-1.jpg",
-                            "altText": "Imagemap",
+                            "altText": "Imagemap แผนที่",
                             "baseSize": {
                                 "width": 1200,
-                                "height": 1600
+                                "height": "1600"
                             },
-                            "actions": [{
-                                "type": "uri",
-                                "area": {
-                                    "x": 123,
-                                    "y": 163,
-                                    "width": 813,
-                                    "height": 800
-                                },
+                            "actions": [
+                                {
+                                    "type": "uri",
+                                    "area": {
+                                        "x": 60,
+                                        "y": 49,
+                                        "width": 917,
+                                        "height": 1283
+                                    },
                                 "linkUri": "https://travel.trueid.net/detail/ly5een7g66ky"
                             }],
                             "sender": {
@@ -580,7 +646,7 @@ exports.webhook = onRequest(async (request, response) => {
                             }, "quickReply": {
                                 "items": [{
                                     "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "imageUrl": "https://img2.pic.in.th/pic/menu_15164854.gif",
                                     "action": {
                                         "type": "message",
                                         "label": "เมนูหลัก",
@@ -588,7 +654,7 @@ exports.webhook = onRequest(async (request, response) => {
                                     }
                                 }, {
                                     "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "imageUrl": "https://img2.pic.in.th/pic/intermittent-fasting_16862110.gif",
                                     "action": {
                                         "type": "message",
                                         "label": "ร้านอาหาร",
@@ -597,7 +663,7 @@ exports.webhook = onRequest(async (request, response) => {
                                 },
                                 {
                                     "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "imageUrl": "https://img2.pic.in.th/pic/travel_8112689.gif",
                                     "action": {
                                         "type": "message",
                                         "label": "สถานที่ท่องเที่ยว",
@@ -606,7 +672,7 @@ exports.webhook = onRequest(async (request, response) => {
                                 },
                                 {
                                     "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "imageUrl": "https://img5.pic.in.th/file/secure-sv1/coffee-shop_10468691.gif",
                                     "action": {
                                         "type": "message",
                                         "label": "ร้านคาเฟ่",
@@ -615,7 +681,7 @@ exports.webhook = onRequest(async (request, response) => {
                                 },
                                 {
                                     "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "imageUrl": "https://img5.pic.in.th/file/secure-sv1/hotel_8112942.gif",
                                     "action": {
                                         "type": "message",
                                         "label": "โรงแรมที่พัก",
@@ -624,7 +690,34 @@ exports.webhook = onRequest(async (request, response) => {
                                 },
                                 {
                                     "type": "action",
-                                    "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                    "imageUrl": "https://img5.pic.in.th/file/secure-sv1/calendar_9448652.gif",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "ปฏิทิน",
+                                        "text": "ปฏิทิน"
+                                    }
+                                },
+                                {
+                                    "type": "action",
+                                    "imageUrl": "https://img2.pic.in.th/pic/bangkok_17428608.gif", //แปะรูปไอคอนด้วย
+                                    "action": {
+                                        "type": "message",
+                                        "label": "เที่ยว 7 วัด 7 อำเภอ",
+                                        "text": "บอทน้องโก ปรึกษาการเดินทางไหว้พระธาตุ 7 วัดตามอ. ในจังหวัดนครพนม"
+                                    }
+                                },
+                                {
+                                    "type": "action",
+                                    "imageUrl": "https://img5.pic.in.th/file/secure-sv1/shopping-bag_17093473.gif", //แปะรูปไอคอนด้วย
+                                    "action": {
+                                        "type": "message",
+                                        "label": "สินค้า OTOP",
+                                        "text": "สินค้าotop หรือของฝากในนครพนม มีอะไรบ้าง ที่ไหนมีขาย"
+                                    }
+                                },
+                                {
+                                    "type": "action",
+                                    "imageUrl": "https://img5.pic.in.th/file/secure-sv1/more_16046406.gif",
                                     "action": {
                                         "type": "message",
                                         "label": "อื่นๆ",
@@ -649,13 +742,40 @@ exports.webhook = onRequest(async (request, response) => {
                                     "items": [
                                         {
                                             "type": "action",
-                                            "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/left-arrow_6839001.gif",
                                             "action": {
                                                 "type": "message",
                                                 "label": "กลับไปหน้าอื่นๆ",
                                                 "text": "อื่นๆ"
                                             }
                                         },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/calendar_9448652.gif",
+                                            "action": {
+                                                "type": "message",
+                                                "label": "ปฏิทิน",
+                                                "text": "ปฏิทิน"
+                                            }
+                                        },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img2.pic.in.th/pic/bangkok_17428608.gif", //แปะรูปไอคอนด้วย
+                                            "action": {
+                                                "type": "message",
+                                                "label": "เที่ยว 7 วัด 7 อำเภอ",
+                                                "text": "บอทน้องโก ปรึกษาการเดินทางไหว้พระธาตุ 7 วัดตามอ. ในจังหวัดนครพนม"
+                                            }
+                                        },
+                                        {
+                                            "type": "action",
+                                            "imageUrl": "https://img5.pic.in.th/file/secure-sv1/shopping-bag_17093473.gif", //แปะรูปไอคอนด้วย
+                                            "action": {
+                                                "type": "message",
+                                                "label": "สินค้า OTOP",
+                                                "text": "สินค้าotop หรือของฝากในนครพนม มีอะไรบ้าง ที่ไหนมีขาย"
+                                            }
+                                        }
                                     ]
                                 }
                             }
@@ -685,7 +805,7 @@ exports.webhook = onRequest(async (request, response) => {
                                 "quickReply": {
                                     "items": [{
                                         "type": "action",
-                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "imageUrl": "https://img2.pic.in.th/pic/menu_15164854.gif",
                                         "action": {
                                             "type": "message",
                                             "label": "เมนูหลัก",
@@ -693,7 +813,7 @@ exports.webhook = onRequest(async (request, response) => {
                                         }
                                     }, {
                                         "type": "action",
-                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "imageUrl": "https://img2.pic.in.th/pic/intermittent-fasting_16862110.gif",
                                         "action": {
                                             "type": "message",
                                             "label": "ร้านอาหาร",
@@ -702,7 +822,7 @@ exports.webhook = onRequest(async (request, response) => {
                                     },
                                     {
                                         "type": "action",
-                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "imageUrl": "https://img2.pic.in.th/pic/travel_8112689.gif",
                                         "action": {
                                             "type": "message",
                                             "label": "สถานที่ท่องเที่ยว",
@@ -711,7 +831,7 @@ exports.webhook = onRequest(async (request, response) => {
                                     },
                                     {
                                         "type": "action",
-                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "imageUrl": "https://img5.pic.in.th/file/secure-sv1/coffee-shop_10468691.gif",
                                         "action": {
                                             "type": "message",
                                             "label": "ร้านคาเฟ่",
@@ -720,7 +840,7 @@ exports.webhook = onRequest(async (request, response) => {
                                     },
                                     {
                                         "type": "action",
-                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "imageUrl": "https://img5.pic.in.th/file/secure-sv1/hotel_8112942.gif",
                                         "action": {
                                             "type": "message",
                                             "label": "โรงแรมที่พัก",
@@ -729,7 +849,34 @@ exports.webhook = onRequest(async (request, response) => {
                                     },
                                     {
                                         "type": "action",
-                                        "imageUrl": "https://bucket.ex10.tech/images/06960db7-fd91-11ee-808f-0242ac12000b/originalContentUrl.png",
+                                        "imageUrl": "https://img5.pic.in.th/file/secure-sv1/calendar_9448652.gif",
+                                        "action": {
+                                            "type": "message",
+                                            "label": "ปฏิทิน",
+                                            "text": "ปฏิทิน"
+                                        }
+                                    },
+                                    {
+                                        "type": "action",
+                                        "imageUrl": "https://img2.pic.in.th/pic/bangkok_17428608.gif", //แปะรูปไอคอนด้วย
+                                        "action": {
+                                            "type": "message",
+                                            "label": "เที่ยว 7 วัด 7 อำเภอ",
+                                            "text": "บอทน้องโก ปรึกษาการเดินทางไหว้พระธาตุ 7 วัดตามอ. ในจังหวัดนครพนม"
+                                        }
+                                    },
+                                    {
+                                        "type": "action",
+                                        "imageUrl": "https://img5.pic.in.th/file/secure-sv1/shopping-bag_17093473.gif", //แปะรูปไอคอนด้วย
+                                        "action": {
+                                            "type": "message",
+                                            "label": "สินค้า OTOP",
+                                            "text": "สินค้าotop หรือของฝากในนครพนม มีอะไรบ้าง ที่ไหนมีขาย"
+                                        }
+                                    },
+                                    {
+                                        "type": "action",
+                                        "imageUrl": "https://img5.pic.in.th/file/secure-sv1/more_16046406.gif",
                                         "action": {
                                             "type": "message",
                                             "label": "อื่นๆ",
@@ -813,11 +960,43 @@ exports.webhook = onRequest(async (request, response) => {
                                 }
                             ]
                         }])
+                    } else if (textMessage === "ปฏิทิน") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "imagemap",
+                                "baseUrl": "https://ex10.tech/store/v1/public/content/upload/imagemap/5e7b5f7e-7aa7-44e8-aafd-e5f8671db4b0",
+                                "altText": "Imagemap generator By EX10",
+                                "baseSize": {
+                                    "width": 1040,
+                                    "height": "1471"
+                                },
+                                "actions": [
+                                    {
+                                        "type": "message",
+                                        "area": {
+                                            "x": 21,
+                                            "y": 240,
+                                            "width": 984,
+                                            "height": 1127
+                                        },
+                                        "text": "รายละเอียดกิจกรรม"
+                                    }
+                                ]
+                            }
+                        ]);
+                    } else if (textMessage === "รายละเอียดกิจกรรม") {
+                        await line.replyWithStateless(event.replyToken, [
+                            {
+                                "type": "text",
+                                "text": " รายละเอียดและกิจกรรมตลอดทั้งปีมีดังนี้\n\nเดือนกุมภาพันธ์\nวันที่ 10-12 งานตรุษจีน ไทย จีน เวียดนาม\nวันที่ 14  งานวันภูไทโลก เรณูนคร\nวันที่ 17-25  งานนมัสการองค์พระธาตุพนม และ งานนมัสการพระธาตุจำปา\n\nเดือนมีนาคม\nวันที่ 21-24  งานนมัสการพระธาตุประสิทธิ์ \nงานประเพณี 5 ชนเผ่า บุญเดือนสี่ ของดีนาหว้า\nวันที่ 22-24  งานนมัสการพระธาตุท่าอุเทน\nงานนมัสการพระธาตุเรณู\nงานนมัสการพระธาตุมหาชัย\nงานนมัสการพระธาตุศรีคุณ\n\nเดือนเมษายน\nวันที่ 13-15  งานสงกรานต์ ถนนข้าวปุ้น\nงานนมัสการพระพุทธบาทเวินปลา\nตลอดทั้งเดือนเมษายน งานสงการนต์ สงน้ำพระธาตุ ประจำวันเกิด 8 พระธาตุ\n\nเดือนพฤษภาคม\nวันที่ 19  งานรำลึกวันคล้ายวันเกิดประธานโฮจิมินห์\nงานเทศกาลวันวิสาขบูชา บุญมหาชาติกวนข้าวทิพย์\n\nเดือนกรกฎาคม\nวันที่ 7-13 งานบวงสรวงพญาศรีสัตตนาคราช\nวันที่ 22 เทศกาลเข้าพรรษา\n\nเดือนกันยายน\nวันที่ 2 งานห่อจ้าวประดับดิน\nในเดือนกันยายน งานเทศกาลกินต่อหัวเสือ อนุรักษ์ภูมิปัญญาท้องถิ่น\nงานวิ่งสะออนรัน\n\nเดือนตุลาคม\nวันเสาร์ที่ 19  วันสัตตนาคารำลึก\nในเดือนตุลาคม งานประเพณีไหลเรือไฟ\nงานสมโภชเจ้าพ่อหมื่น\n\nเดือนพฤศจิกายน\nวันอาทิตย์ที่ 10  งานเดิน-วิ่งข้ามโขง (นครพนม – คำม่วน)\nงานลอยกระทง\n\nเดือนธันวาคม\nวันที่ 25-31 งานเทศกาลส่งท้ายปีเก่าต้อนรับปีใหม่ Nakhonphanom Winter Festival\nในเดือนธันวาคม งานเทศกาลปลาลุ่มน้ำสงคราม"
+                              }
+                        ]);
                     } else if (weatherKeywords.some(keyword => textMessage.includes(keyword))) {
                         await line.replyWithStateless(event.replyToken, [flex.exampleFlex()]);
                     } else {
                         /* Foward to Dialogflow */
-                        await dialogflow.forwardDialodflow(request)
+                        //await dialogflow.forwardDialodflow(request),
+                        await bot.forwardGemini(request)
                     }
 
                 } else {
